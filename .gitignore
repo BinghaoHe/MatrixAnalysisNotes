@@ -23,4 +23,5 @@
 **/*.synctex.gz
 **/*.run.xml
 **/*-converted-to.pdf
-/*.pdf
+/Notes.pdf
+**/*.thm
