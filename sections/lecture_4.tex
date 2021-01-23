@@ -12,10 +12,186 @@ $\Longrightarrow$
 \[
     \underbrace{(A-\lambda I)}_{\text{\rm singular}}v = 0
 \]
-The equation $P_A(\lambda)\triangleq det(A-\lambda I)=0$ is called the characteristic euqation of $A$. 
-$P_A(\lambda)\triangleq det(A-\lambda I)=\prod_{i=1}^m(\lambda-\lambda_i)$ is a polynomial of $\lambda$ with degree $m$.\\
+$P_A(\lambda)\triangleq det(A-\lambda I)=\prod_{i=1}^m(\lambda-\lambda_i)$ is a polynomial of $\lambda$ with degree $m$.
+The equation $P_A(\lambda)\triangleq det(A-\lambda I)=0$ is called the characteristic euqation of $A$.
 
-For each $\lambda$
+For each $\lambda_i$ find $v_i$ such that 
+\[
+    (A-\lambda_i I)v_i = 0
+\]
+$v_i\in Null(A-\lambda_i I)$ and $Null(A-\lambda_i I)$ is the eigenspace for $\lambda_i$
+\begin{enumerate}
+    \item [-] Even if $A\in R^{m\times m}$ is real-valued, $\lambda_i$ and $v_i$ could be complex.
+    \emph{e.g.} 
+    \[
+        A=\begin{bmatrix}
+            0& -1 \\ 1 & 0
+        \end{bmatrix}\quad \Longrightarrow \quad \lambda = \pm j
+    \]
+    \item [-] But if $\lambda_i\in\mathbb{R}$ is real-valued, $v_i\in\mathbb{R}^m$ should be in $\mathbb{R}^m$.
+\end{enumerate}
+
+\subsection{Diagonalizability}
+\subsubsection{Similar matrices}
+\begin{definition}[Similar matrices]
+    $A\in\mathbb{R}^{m\times m}$ and $B\in\mathbb{R}^{m\times m}$ are similar to each other if there exists a nonsingular $S\in\mathbb{R}^{m\times m}$ such that 
+    \[
+        B=SAS^{-1}
+    \]
+\end{definition}
+If $A$ and $B$ are similar to each other, then they have the same eigenvalues. \\
+\begin{proof}
+    \[
+        \begin{array}{ll}
+            P_B(\lambda)&=det(B-\lambda I) \\
+            &= det(SAS^{-1}-\lambda I) \\
+            &= det(S(A-\lambda I)S^{-1}) \\
+            &= det(S)det(A-\lambda I)det(S^{-1}) \\
+            &= det(A-\lambda I) \\
+            &= P_A(\lambda)
+        \end{array}    
+    \]
+\end{proof}
+
+\subsubsection{Diagonalizable matrix}
+\begin{definition}[Diagonalizable]
+    A matrix $A\in\mathbb{R}^{m\times m}$ is diagonalizable if $A$ is similar to a diagonal matrix. \\
+\end{definition}
+$\Longrightarrow$ (\textbf{Eigenvalue decomposition}) \\
+There exists an invertible matrix $V\in\mathbb{R}^{m \times m}$ and a diagonal matrix $D\in \mathbb{R}^{m \times m}$ s.t.
+\[
+    \underbrace{A = VDV^{-1}}_{\text{\rm eigenvalue decomposition (EVD)}}
+\]
+$\Longrightarrow$
+\[
+    AV=VD
+\]
+\[V = [v_1,v_2,...,v_m]\quad , \quad D = \left[\begin{array}{ccc}
+    \lambda_1 && \\
+    & \ddots & \\
+    && \lambda_m
+\end{array}\right]\]
+$\Longleftrightarrow$ \\
+\[
+    Av_i = \lambda_i v_i ,\quad \forall i=1,...,m
+\]
+$\Longrightarrow$ \\
+$A$ is diagonalizable \emph{iff.} there is a set of linear indep. vectors which are engenvectors of $A$.
+\textbf{Properties} \\
+If a matrix $A\in\mathbb{R}^{m\times m}$ is diagonalizable
+\begin{enumerate}
+    \item $det(A)=\prod_{i=1}^m \lambda_i$
+    \item $Tr(A)=\sum_{i=1}^m \lambda_i$
+    \item $rank(A)=$ the number of non-zero eigenvalues
+\end{enumerate}
+\begin{proof} 
+    \begin{enumerate}
+        \item $det(A)=det(VDV^{-1})=det(V)det(D)det(V^{-1})=det(D)=\prod_{i=1}^m\lambda_i$
+        \item $Tr(A)=Tr(VDV^{-1})=Tr(DV^{-1}V)=Tr(D)=\sum_{i=1}^m\lambda_i$
+    \end{enumerate}
+\end{proof}
+\subsection{When Diagonalizable}
+\subsubsection{Distinct eigenvalues}
+Let $\{\lambda_1,\lambda_2,...,\lambda_k\}_{k\in M}$ ($k\geq 2$) be a subset of eigenvalues of $A$ and $\lambda_i\neq \lambda_j$ $\forall i\neq j$. 
+Then the corresponding eigenvectors, denoted with $v_1,...,v_k$ respectively, are linearly independent. 
+
+If $A$ has $\lambda_1\neq\lambda_2\neq\cdots\neq\lambda_k$, then the corresponding eigenvectors $v_1,...,v_k$ are linear independent. \\
+\begin{proof}
+    \par Suppose $v_1,...,v_k$ are linearly \textbf{dependent}. Then there exists $\alpha_1,\alpha_2,...,\alpha_k$ not all zero 
+    (without losing generality, assume $\alpha_1\neq 0$) s.t. 
+    \[
+        \sum_{i=1}^k \alpha_i v_i = 0
+    \]
+    Then
+    \[
+        A\cdot \left(\sum_{i=1}^k \alpha_i v_i\right) = \sum_{i=1}^k \alpha_i A v_i = \sum_{i=1}^k \alpha_i \lambda_i v_i = 0
+    \]
+    \begin{equation}
+        \sum_{i=1}^{k-1} \alpha_i \lambda_i v_i + \alpha_k \lambda_k v_k = 0 \tag{1}
+    \end{equation}
+    On the other hand,
+    \[
+        \lambda_k\cdot \left(\sum_{i=1}^k \alpha_i v_i\right) = \sum_{i=1}^{k} \alpha_i \lambda_k v_i = 0
+    \]
+    \begin{equation}
+        \sum_{i=1}^{k-1} \alpha_i \lambda_k v_i + \alpha_k \lambda_k v_k = 0 \tag{2}
+    \end{equation}
+    $(1)-(2)$:
+    \[
+        \sum_{i=1}^{k-1} \alpha_i (\lambda_i - \lambda_k) v_i = 0
+    \]
+    Then
+    \[
+        \begin{array}{rl}
+            A\cdot \left(\sum_{i=1}^{k-1} \alpha_i (\lambda_i - \lambda_k) v_i\right)&=\sum_{i=1}^{k-1} \alpha_i (\lambda_i - \lambda_k) Av_i \\
+            &=\sum_{i=1}^{k-1} \alpha_i (\lambda_i - \lambda_k) \lambda_i v_i \\
+            & = 0
+        \end{array}
+    \]
+    \begin{equation}
+        \sum_{i=1}^{k-2} \alpha_i (\lambda_i - \lambda_k) \lambda_i v_i + \alpha_{k-1}(\lambda_{k-1}0\lambda_k)\lambda_{k-1}v_{k-1}=0 \tag{3}
+    \end{equation}
+    On the other hand
+    \[
+        \lambda_{k-1}\cdot \left(\sum_{i=1}^{k-1} \alpha_i (\lambda_i - \lambda_k) v_i\right)=\sum_{i=1}^{k-1} \alpha_i (\lambda_i - \lambda_k)\lambda_{k-1}v_i =0 
+    \]
+    \begin{equation}
+        \sum_{i=1}^{k-2} \alpha_i (\lambda_i - \lambda_k) \lambda_{k-1} v_i + \alpha_{k-1}(\lambda_{k-1}0\lambda_k)\lambda_{k-1}v_{k-1}=0 \tag{4}
+    \end{equation}
+    $(3)-(4)$:
+    \[
+        \sum_{i=1}^{k-2} \alpha_i (\lambda_i - \lambda_k)(\lambda_i - \lambda_{k-1}) v_i = 0
+    \]
+    Repeat until $i=1$
+    \[
+        \alpha_1\left(\prod_{i=1}^k(\lambda_1 - \lambda_i)\right)v_1 = 0
+    \]
+    Since $\alpha_1\neq 0$ and $\prod_{i=1}^k(\lambda_1 - \lambda_i)\neq 0$, so $v_1 = 0$ (Contradict!) \\
+    Therefore, $v_1,...,v_k$ are linearly \textbf{independent}
+\end{proof}
+
+If $A\in\mathbb{R}^{m\times m}$ has $m$ distinct eigenvalues, then $A$ is diagonalizable.
+
+\subsubsection{Repeated eigenvalues}
+Let $\lambda$ be an eigenvalue of $A$ repeated $r$ times. Define
+\begin{itemize}
+    \item [-] Algebra multiplicity: $r$.
+    \item [-] Geometric multiplicity: $s=dim(Null(A-\lambda I))$
+\end{itemize}
+Then
+\[
+    s\leq r
+\]
+\begin{proof} \\
+    Let $dim(Null(A-\bar{\lambda I}))=s$ and $\{q_1,...,q_s\}$ be an orthogonal basis for $Null(A-\bar{\lambda} I)$. \\
+    Then $Q_1 = [q_1,...,q_s]\in\mathbb{R}^{m\times s}$ is semi-unitary and $\exists Q_2\in\mathbb{R}^{m\times (m-s)}$ s.t. 
+    $Q\triangleq [Q_1,Q_2]$ is unitary.\\
+    Consider 
+    \[
+        Q^HAQ = \begin{bmatrix}
+            Q_1^H AQ_1 & Q_1^HAQ_2 \\
+            Q_2^H AQ_1 & Q_2^HAQ_2
+        \end{bmatrix} = \begin{bmatrix}
+            \bar{\lambda} I_s & Q_1^HAQ_2 \\
+            0 & Q_2^HAQ_2
+        \end{bmatrix}
+    \]
+    Then
+    \[
+        \begin{aligned}
+            P_A(\lambda) & =P_{Q^HAQ}(\lambda) \\
+            & = det(Q^HAQ-\lambda I) \\
+            & = det\left(\begin{bmatrix}
+                (\bar{\lambda}-\lambda)I_s & Q_1^HAQ_2 \\
+                0 & Q_2^HAQ_2-\lambda I_{m-s}
+            \end{bmatrix}\right) \\
+            & = \underbrace{(\bar{\lambda}-\lambda)^s}_{\bar{\lambda}\text{ \rm repeats } s \text{ \rm times}} det(Q_2^HAQ_2-\lambda I_{m-s}) \\
+            & = 0
+        \end{aligned}
+    \]
+    So \[r\geq s\]
+\end{proof}
+If $s=r$, $A$ is diagonalizable.
 
 \newpage
 \end{multicols}
