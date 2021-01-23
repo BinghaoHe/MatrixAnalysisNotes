@@ -1,0 +1,321 @@
+\section{Lecture 3. Least Square Problem (LSP)}
+\begin{multicols}{2}
+\subsection{Formulation}
+\subsubsection{LS problem}
+Given $y\in\mathbb{R}^m$, $A\in\mathbb{R}^{m\times n}$
+\[
+    \min_{x\in\mathbb{R}^n} \|y-Ax\|_2^2
+\]
+\subsubsection{Linear representation of signals}
+\[
+    y=Ax
+\]
+In practice,
+\[
+    y=Ax+v
+\]
+where 
+\begin{itemize}
+    \item [-] $y$ is the observation (Given)
+    \item [-] $A$ is the model (Given)
+    \item [-] $x$ is the parameter to be estimated/determined
+    \item [-] $v$ is the noice follow multi-variate Gaussian distribution
+    \[
+        \text{\rm pdf}(v)\propto e^{-\|v\|^2}
+    \]
+\end{itemize}
+$\Longrightarrow$ Maximum likelihood estimator 
+\[
+    \max_x P(y|x) \propto \min_x \|y-Ax\|_2^2
+\]
+\subsection{AR and Polynomial Models}
+\subsubsection{Autoregressive (AR) model}
+Given  a time series $y_t$, $t=0,1,2,...$, 
+\[
+    \underbrace{y_t = \alpha_1y_{t-1} + \alpha_2y_{t-2} +\cdots +\alpha_py_{t-p}}_{\text{\rm AR model}} + \underbrace{v_t}_{\text{\rm noise}}
+\]
+If $\alpha_1,\alpha_2,...,\alpha_p$ are known, estimate $y_t$ by 
+\[
+    \hat{y}_t =  \underbrace{\alpha_1y_{t-1} + \alpha_2y_{t-2} +\cdots +\alpha_py_{t-p}}_{\text{\rm historical observation}}
+\]
+Collect
+\[
+    \underbrace{
+    \left[\begin{array}{l}
+        y_0 \\
+        y_1 \\
+        \vdots \\
+        y_T
+    \end{array}
+    \right]}_{y\in\mathbb{R}^T}
+    =
+    \underbrace{
+    \left[\begin{array}{cccc}
+        y_0 &     & &\\
+        y_1 & y_0 && \\
+        \vdots & \ddots& \ddots & \\
+        y_{p-1}& \cdots& \cdots & y_0 \\
+        \vdots &  \ddots&\ddots & \vdots \\
+        y_{T-1} & \cdots&\cdots & y_T
+    \end{array}
+    \right]}_{A\in\mathbb{R}^{T\times p}}
+    \underbrace{
+    \left[\begin{array}{l}
+        \alpha_1 \\
+        \alpha_2 \\
+        \vdots \\
+        \alpha_p
+    \end{array}
+    \right]}_{x\in\mathbb{R}^p}
+    +
+    \underbrace{
+    \left[\begin{array}{l}
+        v_0 \\
+        v_1 \\
+        \vdots \\
+        v_T
+    \end{array}
+    \right]}_{v\in \mathbb{R}^T}
+\]
+$\Longrightarrow$ Solve LS problem to obtain $\alpha_i$, $i=1,...,p$
+\subsubsection{Polynomial model}
+\[
+    \underbrace{y_t = \alpha_0 + \alpha_1t + \alpha_2t^2 +\cdots +\alpha_pt^p}_{\text{\rm polynomial model}} + \underbrace{v_t}_{\text{\rm noise}}
+\]
+Collect
+\[
+    \underbrace{
+    \left[\begin{array}{l}
+        y_0 \\
+        y_1 \\
+        \vdots \\
+        y_T
+    \end{array}
+    \right]}_{y\in\mathbb{R}^T}
+    =
+    \underbrace{
+    \left[\begin{array}{cccc}
+        1 & 0  & \cdots & 0 \\
+        1 & 1  & \cdots & 1 \\
+          &   \vdots &   &   \\
+        1 & t  & \cdots & t^p \\
+          &    \vdots &   &   \\
+        1 & T-1  & \cdots & (T-1)^p
+    \end{array}
+    \right]}_{A\in\mathbb{R}^{T\times p}}
+    \underbrace{
+    \left[\begin{array}{l}
+        \alpha_1 \\
+        \alpha_2 \\
+        \vdots \\
+        \alpha_p
+    \end{array}
+    \right]}_{x\in\mathbb{R}^p}
+    +
+    \underbrace{
+    \left[\begin{array}{l}
+        v_0 \\
+        v_1 \\
+        \vdots \\
+        v_T
+    \end{array}
+    \right]}_{v\in \mathbb{R}^T}
+\]
+$\Longrightarrow$ Solve LS problem to obtain $\alpha_i$, $i=1,...,p$
+\subsection{Basis Representation}
+\subsubsection{Basis matrix}
+For $y\in\mathbb{R}^m$, given a set of basis vectors (can be given or learned)
+\[
+    \Phi =\{\phi _1,\phi _2,...,\phi _n\}\in\mathbb{R}^{m\times n}
+\]
+We model 
+\[
+    y=\sum_{i=1}^n\phi_ix_i = \Phi x
+\]
+\begin{enumerate}
+    \item [-] $m\gg n$, assume data lies in a low-dimensional subspace 
+    \item [-] $m\ll n$, dictionary $\Longrightarrow$ $x$ is sparse
+\end{enumerate}
+\subsubsection{Fourier basis}
+Discrete Fourier Transform (DFT) \\
+Inverse Discrete Fourier Transform (IDFT)
+\[
+    \Phi = [\phi_1,...,\phi_n]\in\mathbb{C}^{n\times n}
+\]
+\[
+    \phi_i = \frac{1}{\sqrt{n}}
+    \left[\begin{array}{l}
+        1 \\
+        e^{j\frac{2\pi}{n}(i-1)} \\
+        e^{j\frac{2\pi}{n}(i-1)\times 2} \\
+        \vdots \\
+        e^{j\frac{2\pi}{n}(i-1)\times {n-1}}
+    \end{array}
+    \right]
+    \in\mathbb{R}^{n} \quad
+\]
+\begin{itemize}
+    \item [-] $\Phi$ is IDFT matrix, $\Phi^H$ is DFT matrix.
+    \item [-] $\Phi$ is unitary matrix.
+\end{itemize}
+
+\subsection{LTI System}
+\subsubsection{Lienar time invariant system}
+\[
+    \begin{array}{ll}
+        -\text{ \rm Linearity} & 
+        \left\{\begin{array}{c}
+            x_t^1\to \boxed{\text{\rm LTI}} \to y_t^1 \\
+            x_t^2 \to \boxed{\text{\rm LTI}} \to y_t^2 \\
+            \alpha x_t^1 + \beta x_t^2\to \boxed{\text{\rm LTI}} \to \alpha y_t^1 +\beta y_t^2
+        \end{array}
+        \right.
+        \\
+        -\text{ \rm Time Invariant} & x_{t-d}\to \boxed{\text{\rm LTI}} \to y_{t-d}
+    \end{array}
+\]
+Impulse $\delta(t)$
+\[
+    \left\{\begin{array}{l}
+        \delta(t)=0,t\neq 0 \\
+        \int_{-\infty}^{+\infty}\delta(t) \,dt 
+    \end{array}\right.
+\]
+LTI system is characterized by an impulse response 
+\[
+    h_t,\quad t=0,...,p-1
+\]
+$\Longrightarrow$ $x_t$ and $y_t$ is related through "convolution"
+\[
+    \begin{array}{ll}
+        y_t&=\sum_{i=1}^p {h_i x_{t-i}} \\
+        &=h_t\ast x_t
+    \end{array}
+\]
+\[
+    x_t\to\overbrace{\boxed{h_t}}^{\text{\rm LTI}}\to y_t
+\]
+\subsubsection{System identification}
+Given $\{y_t\}_{t=0}^{T-1}$ and $\{x_t\}_{t=0}^{T-1}$, find the impulse response $\{h_t\}_{t=0}^{p}$
+\[
+    \left[\begin{array}{l}
+        y_0 \\
+        y_1 \\
+        \vdots \\
+        y_p \\
+        \vdots \\
+        y_T
+    \end{array}
+    \right]
+    =
+    \left[\begin{array}{cccc}
+        x_0 &     & &\\
+        x_1 & x_0 && \\
+        \vdots & \ddots& \ddots & \\
+        x_p& \cdots& \cdots & x_0 \\
+        \vdots &  \ddots&\ddots & \vdots \\
+        x_{T-1} & \cdots&\cdots & x_{T-p}
+    \end{array}
+    \right]
+    \left[\begin{array}{l}
+        h_0 \\
+        h_1 \\
+        \vdots \\
+        h_p
+    \end{array}
+    \right]
+    +
+    \text{ \rm noise}
+\]
+$\Longrightarrow$ Solve LS problem to obtain $\{h_t\}_{t=0}^{p}$
+\subsubsection{Deconvolution}
+Given $\{y_t\}_{t=0}^{T-1}$ and ${h_t}_{t=0}^p$, find out $\{x_t\}_{t=0}^{T-1}$ \\
+Put them into a linear system of equations
+\[
+    \left[\begin{array}{l}
+        y_0 \\
+        y_1 \\
+        \vdots \\
+        y_p \\
+        \vdots \\
+        y_T
+    \end{array}
+    \right]
+    =
+    \underbrace{
+    \begin{bmatrix}
+        h_0   & 0       &         & \cdots  &        &        &  0              \\  
+        h_1   & h_0     &    0    & \cdots  &        & \ddots &                \\
+        \vdots& \vdots  &         & \ddots  &        &        & \vdots         \\
+        h_p   & h_{p-1} &         & \cdots  &        &h_1     & h_0            \\
+        \vdots& \ddots  & \ddots  &         &        & \vdots & \vdots         \\
+        0     & \cdots  & h_p     & h_{p-1} &\cdots  & h_1    & h_0
+    \end{bmatrix}}_{A\in\mathbb{R}^{T\times T}}
+    \left[\begin{array}{l}
+        x_0 \\
+        x_1 \\
+        \vdots \\
+        x_p \\
+        \vdots \\
+        x_T
+    \end{array}
+    \right]
+    +
+    \text{ \rm noise}
+\]
+$\Longrightarrow$ Solve LS problem to obtain $\{x_t\}_{t=0}^{T-1}$
+\subsubsection{Toeplitz matrix}
+\[
+    A = 
+    \begin{bmatrix}
+        a_{0}  & a_{-1}& \cdots & \cdots & a_{-n+1}    \\
+        a_{1}  & a_{0} & a_{-1} & \cdots & a_{-n+2}    \\
+        a_{2}  & a_{1} & a_{0}  & a_{-1} & \ddots       \\
+        \vdots & \ddots&\ddots  & \ddots & \vdots       \\
+        a_{n-1}& \cdots&a_{2}   & a_{1}  & a_{0}
+    \end{bmatrix}
+    \in\mathbb{R}^{n\times n}
+\]
+\subsection{Circulant Matrix}
+Circulant matrix is a special case of Toeplitz matrix
+\[
+    H = 
+    \begin{bmatrix}
+        h_{0}  & h_{n-1} & \cdots  & \cdots  & h_{1}    \\
+        h_{1}  & h_{0}   & h_{n-1} & \cdots  & h_{2}    \\
+        h_{2}  & h_{1}   & h_{0}   & h_{n-1} & \ddots       \\
+        \vdots & \ddots  &\ddots   & \ddots  & \vdots       \\
+        h_{n-1}& \cdots  &h_{2}    & h_{1}   & h_{0}
+    \end{bmatrix}
+    \in\mathbb{R}^{n\times n}
+\]
+\[
+    H\overbrace{\Longrightarrow}^{O(n\log n)} H^{-1}
+\]
+The key property:
+\[
+    H\cdot \underbrace{\phi_i}_{\text{\rm IDFT}} = d_i\cdot \phi_i\quad , d_i\in\mathbb{R}
+\]
+Let 
+\[
+    D = \begin{bmatrix}
+        d_1 && \\
+        & \ddots & \\
+        && d_n 
+    \end{bmatrix}
+\]
+Then 
+\[
+    \begin{array}{ll}
+        H\cdot\Phi &= H\cdot [\phi_1,...,\phi_n]\\
+                   &= [d_1\phi_1,...,d_n\phi_n] \\
+                   &= \Phi\cdot D
+    \end{array}
+\]
+$\Longrightarrow$
+\[
+    \underbrace{H = \Phi\cdot D \cdot \Phi^H}_{\text{\rm eigen-decomposition of } H} \Longleftrightarrow \quad \Phi^H H \Phi = D
+\]
+\newpage
+\end{multicols}
+

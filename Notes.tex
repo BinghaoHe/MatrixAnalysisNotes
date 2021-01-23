@@ -1,0 +1,58 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{parskip}
+\setlength{\parindent}{0cm}
+\geometry{scale=0.8}
+\linespread{1}
+%%%
+\usepackage{amsfonts,bm}
+\usepackage[amsmath,thmmarks,framed]{ntheorem}
+\theorembodyfont{\rm}
+\theoremstyle{break}
+\usepackage{framed}
+\usepackage{color}
+\definecolor{gray}{rgb}{0.6,0.6,0.6}
+\renewcommand*\FrameCommand{{\color{gray}\vrule width 5pt \hspace{10pt}}}
+\newframedtheorem{theorem}{Theorem}
+\theoremstyle{nonumberbreak}
+\newframedtheorem{definition}{Definition}
+\newenvironment{proof}{{\noindent\it Proof}\quad}{\hfill $\square$\par}
+%%%
+\usepackage{paralist}
+\let\itemize\compactitem
+\let\enditemize\endcompactitem
+\let\enumerate\compactenum
+\let\endenumerate\endcompactenum
+\let\description\compactdesc
+\let\enddescription\endcompactdesc
+%%%
+\makeatletter 
+\renewcommand
+\normalsize{   
+    \@setfontsize\normalsize\@xpt\@xiipt    
+    \abovedisplayskip 4\p@ \@plus2\p@ \@minus5\p@  
+    \abovedisplayshortskip \z@ \@plus3\p@    
+    \belowdisplayshortskip \p@ \@plus3\p@ \@minus3\p@    
+    \belowdisplayskip \abovedisplayskip    
+    \let\@listi\@listI} 
+\makeatother
+%%%
+\title{CIE 6002 Matrix Analysis}
+\author{Binghao He}
+\date{\today}
+\setcounter{secnumdepth}{0}
+
+
+\begin{document}
+\maketitle    
+\tableofcontents
+
+\newpage
+\input{sections/lecture_2.tex}
+\input{sections/lecture_3.tex}
+\input{sections/lecture_4.tex}
+
+\end{document}

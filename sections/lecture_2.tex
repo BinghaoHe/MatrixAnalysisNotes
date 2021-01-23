@@ -1,0 +1,283 @@
+\section{Lecture 2. Fundamental and Basic Operations}
+\begin{multicols}{2}
+\subsection{Subspace}
+\subsubsection{Definition}
+The set $S\subseteq\mathbb{R}^m$ is a subspace, if for $x,y\in S$
+\[
+    \alpha x + \beta y = S,\quad \alpha, \beta \in \mathbb{R}^m
+\]
+This indicates
+\[
+    x_i\in S,\quad i=1,...,N\quad \Longrightarrow\quad \sum_{i=1}^N\alpha_i x_i \in S
+\]
+\subsubsection{Some important subspaces}
+\begin{enumerate}
+    \item Span: a collection of vectors 
+    \[
+        span\{a_1,...,a_n\}=\{y\in\mathbb{R}^m | y= \sum_{i=1}^n\alpha_ia_,\alpha_i\in\mathbb{R}\}
+    \]
+    \item Orthogonal complement: given a subspace $S\subseteq \mathbb{R}^m$
+    \[
+        S_\bot = \{y\in\mathbb{R}^m|y^Tx=0,\forall x\in S\}
+    \]
+    \item Range space of $A$ (linear comb. of col. vectors)
+    \[
+        \begin{array}{rl}
+            R(A) &= span\{a_1,a_2,...,a_n\} \\
+            & =\{y\in\mathbb{R}^m|y=Ax,x\in\mathbb{R}^n\}
+        \end{array}       
+    \]
+    \item Null space of $A$ (linear comb. of col. vectors)
+    \[
+        Null(A)=\{x\in\mathbb{R}^n|Ax=0\}
+    \]
+\end{enumerate}
+\subsubsection{Linear independence}
+Given a set $\{a_1,a_2,...,a_n\}$, we say they are linear independent if
+\[
+    \sum_{i=1}^n\alpha_ia_i=0\Longrightarrow \alpha_i=0,\forall i=1,...,n
+\]
+\subsubsection{Basis}
+$\{b_1,b_2,...,b_k\}\subseteq \mathbb{R}^m$ is a basis for the subspace $S\subseteq \mathbb{R}^m$ 
+if $S=span\{b_1,b_2,...,b_k\}$ and $\{b_1,b_2,...,b_k\}$ is linear independent. \\
+The number of the vectors of the basis for $S$
+\[
+    k=dim(S)
+\]
+\begin{enumerate}
+    \item $k$: max number of linear indep. vectors in $S$
+    \item $k$: min number of vectors that can span $S$
+\end{enumerate}
+\subsubsection{Rank}
+For a matrix $A\in\mathbb{R}^{m\times n}$
+\[
+    dim(R(A))\leq min\{m,n\}
+\]
+Rank of a matrix (?)
+\[
+    \begin{array}{cll}
+        rank(A) & = &dim(R(A)) \\
+        & = &\text{\rm max number of linearly indep.} \\
+        & & \text{\rm columns(rows) of } A \\
+        & = &rank(A^T)
+    \end{array}
+\]
+And
+\[
+    Null(A)=(R(A^T))_\bot
+\]
+
+\subsubsection{Nonsingularity/Invertibility}
+A symmetric matrix $A\in\mathbb{R}^{m\times m}$ is non-singular if
+\[
+    Ax=0\quad \Longrightarrow \quad x=0
+\]
+$\Longrightarrow$ columns of $A$ are linearly indep. \\
+$\Longrightarrow$ $\exists A^{-1}\in\mathbb{R}^{m\times m}$ that $AA^{-1}=A^{-1}A=I_m$ \\
+Some properties
+\begin{enumerate}
+    \item $(AB)^{-1}=B^{-1}A^{-1}$
+    \item $(A^{-1})^T=(A^T)^{-1}$
+\end{enumerate}
+
+\subsubsection{Determinant}
+For a matrix $A\in\mathbb{R}^{m\times m}$, \\
+Inductive
+\begin{enumerate}
+    \item If $m=1$, $det(A)=A$
+    \item If $m>1$,
+    Define: $A_{ij}\in\mathbb{R}^{(m-1)\times(m-1)}$ is a submatrix that removes $i$th row and 
+    $j$th column of $A$. \\
+    Define: $c_ij=(-1)^{i+j}det(A_{ij})$. \\
+    $\begin{array}{lll}
+        det(A) &=\sum_{j=1}^m a_{ij}c_{ij}& \forall i=1,...,m \\
+        & = \sum_{i=1}^m a_{ij}c_{ij} & \forall j = 1,...,m
+    \end{array}$
+\end{enumerate}
+For $A,B\in\mathbb{R}^{m\times m}$
+\begin{itemize}
+    \item [-] $det(AB)=det(A)det(B)$
+    \item [-] $det(A)=det(A^T)$
+    \item [-] $det(\alpha A)=\alpha^m det(A)$
+    \item [-] $det(A)=0$ $\Longleftrightarrow$ $A$ is singular
+    \item [-] $det(A^{-1})=1/det(A)$ if $A$ is invertible
+\end{itemize}
+
+\subsection{Vector Norm}
+A mapping $f:\mathbb{R^m}\to\mathbb{R}$ is a norm if it satisfies that $\forall x,y\in\mathbb{R}^m$
+\begin{itemize}
+    \item [-] $f(x)\geq 0$
+    \item [-] $f(x)= 0$ \emph{iff.} $x=0$
+    \item [-] $f(x+y)\leq f(x)+f(y)$
+    \item [-] $f(\alpha x)=|\alpha|f(x)$
+\end{itemize}
+Examples
+\begin{itemize}
+    \item [-] $\|x\|_2=\sqrt{\sum_{i=1}^m|x_i|^2}$ (Euclidean norm)
+    \item [-] $\|x\|_1=\sum_{i=1}^m|x_i|$
+    \item [-] $\|x\|_\infty=\max_{i=1,...,m}|x_i|$
+    \item [-] $\|x\|_p=\sqrt[p]{\sum_{i=1}^m|x_i|^p}$
+\end{itemize}
+
+\subsection{Inner Product}
+\[
+    <x,y>=x^Ty
+\]
+\[
+    <x,x>=\|x\|_2^2
+\]
+Cauchy-Schwarz Inequality 
+\[
+    |x^Ty|\leq \|x\|_2\cdot \|y\|_2
+\]
+Holder Inequality
+\[
+    |x^Ty|\leq \|x\|_p\cdot \|y\|_q
+\]
+where
+\[
+    1/p+1/q=1\quad ,\quad p\cdot q\geq 1
+\]
+
+\subsection{Projection onto a Subspace}
+\subsubsection{Projection}
+Given a set $S\subseteq \mathbb{R}^m$ and a point $y\in\mathbb{R}^m$, the projection of $y$ onto $S$ is
+\[
+    y_S=\arg \min_{z\in S} \|z-y\|_2^2
+\]
+\begin{theorem}
+    Suppose $S$ is a subspace,
+    \begin{enumerate}
+        \item $y_S$ exists and is unique
+        \item Let $y_S=\Pi_S(y)$ \emph{iff.} \\
+        $z^T(y_S-y)=0$ $\forall z\in S$
+    \end{enumerate}    
+\end{theorem}
+
+\subsubsection{Orthogonal complement}
+$S_\bot =\{y\in\mathbb{R}^m|y^Tx=0,\forall x\in S\}$ is the orthogonal complement 
+of subspace $S$. 
+\begin{itemize}
+    \item [-] Orthogonal complement is a subspace
+    \item [-] $S \cap S_\bot$
+\end{itemize}
+\begin{theorem} \label{th2}
+    
+    Let $S\subseteq \mathbb{R}^m$ be a subspace. For any $y\in\mathbb{R}^m$
+    \[
+        y=\Pi_S(y) + \Pi_{S_\bot}(y)
+    \]
+\end{theorem}
+\begin{proof}
+    \[
+        y=\Pi_S(y) + \Pi_{S_\bot}(y)
+    \]
+    \[
+        \begin{array}{ll}
+            \Longleftrightarrow & y-\Pi_S(y)=\Pi_{S_\bot}(y) \\
+            \Longleftrightarrow & z^T(y-y+\Pi_S(y))=0 \quad \forall z\in S_\bot \\
+            \Longleftrightarrow & z^T\Pi_S(y)=0 \quad \forall z\in S_\bot 
+        \end{array}
+    \]
+    \[
+        \because\quad \Pi_S(y))\in S 
+    \]
+    \[
+        \therefore z^T\Pi_S(y))=0 \quad \forall z\in S_\bot 
+    \]
+\end{proof}
+
+\subsubsection{Sum of subspaces}
+For two sets $X,Y\subseteq \mathbb{R}^m$,
+\[
+    X+Y=\{x+y\in\mathbb{R}^m\}
+\]
+For a subspace $S\subseteq \mathbb{R}^m$
+\begin{enumerate}
+    \item $S+S_\bot = \mathbb{R}^m$
+    \item $dim(S)+dim(S_\bot)=m$
+    \item $(S_\bot)_\bot = S$
+\end{enumerate}
+\begin{proof}
+    \begin{enumerate}
+        \item Comes from Theorem \ref{th2}
+        \item Let $\{a_1,a_2,...,a_k\}$ be a basis for $S$ ($dim(S)=k$) and $\{b_1,b_2,...,b_\ell\}$ be a basis for $S\bot$ ($dim(S_\bot)=\ell$).
+        \\ $\{a_1,a_2,...,a_k\}\cup\{b_1,b_2,...,b_\ell\}$ is 
+        \begin{enumerate}
+            \item linear independent
+            \item Span $S+S_\bot=\mathbb{R}^m$
+        \end{enumerate}
+        Therefore, $dim(S)+dim(S_\bot)=m$
+        \item Obvious
+    \end{enumerate}
+\end{proof}
+
+\subsubsection{Orthogonal Set}
+$\{a_1,a_2,...,a_n\}$ is orthogonal/orthonormal set if
+\begin{enumerate}
+    \item $\|a_i\|_2=1\quad \forall i=1,...,n$
+    \item $a_i^Ta_j= 0\quad \forall i\neq j$
+\end{enumerate}
+The orthogonal set is linear independent.
+\[
+    y=\sum_{i=1}^n\alpha_ia_i \Longrightarrow \alpha_i=a_i^Ty=\alpha \|a_i\|_2^2
+\]
+Given a linear independent set $\{a_1,a_2,...,a_n\}$. The procedure of finding an orthogonal 
+set $\{q_1,q_2,...,1_n\}$ so that $span\{a_1,a_2,...,a_n\}=span\{q_1,q_2,...,q_n\}$ is called 
+"Gram-Schimit" procedure.
+
+\subsubsection{Orthogonal/Unitary Matrix}
+$Q = [q_1,q_2,...,q_m]\in\mathbb{R}^{n\times m}$, $q_i,i=1,...,m$ are orthogonal.
+\begin{itemize}
+    \item [-] If $m=n$, \\ $Q$ is orthogonal matrix $\Longrightarrow$ $Q^TQ=I_m=QQ^T$.
+    \item [-] If $n>m$, \\ semi-orthogonal $\Longrightarrow$ $Q^TQ=I_m\neq QQ^T$.
+\end{itemize}
+$Q = [q_1,q_2,...,q_m]\in\mathbb{C}^{n\times m}$, $q_i,i=1,...,m$ are orthogonal.
+\begin{itemize}
+    \item [-] If $m=n$, \\ $Q$ is unitary matrix $\Longrightarrow$ $Q^HQ=I_m=QQ^H$.
+    \item [-] If $n>m$, \\ semi-unitary $\Longrightarrow$ $Q^HQ=I_m\neq QQ^H$.
+\end{itemize}
+If $Q\in\mathbb{R}^{n\times m}$ $(n>m)$ is semi-orthogonal, $\exists\tilde{Q}\in\mathbb{R}^{n\times(n-m)}$ so that 
+$\left[\begin{array}{cc}Q&\tilde{Q}\end{array}\right]$ is orthogonal.
+\subsubsection{Dimensional Theorem}
+For a matrix $A\in\mathbb{R}^{m\times n}$, it holds
+\[
+    dim(R(A))+dim(Null(A))=n
+\]
+\begin{proof}
+    \[
+        dim(R(A^T))+dim(R(A^T)_\bot)=n
+    \]
+    \[
+        dim(R(A^T))=rank(A^T)=rank(A)=dim(R(A))
+    \]
+    \[
+        dim(R(A^T)_\bot)=Null(A)=n
+    \]
+\end{proof}
+
+\subsection{Complexity of Matrix Computation}
+\subsubsection{Flops}
+Arithmetic operations including addition, substraction, multiplication, division.
+
+\subsubsection{Big O notation}
+Big O notation: "order" of the complexity.
+\[
+    f(n)=O(g(n))
+\] 
+for some $g(n)$ if $\exists$ a constant $C>0$ and $n_0$ so that for $n>n_0$
+\[
+    |f(n)|\leq C\cdot|g(n)|
+\]
+Examples: for $x\in\mathbb{R}^m$, $y\in\mathbb{R}^m$, $A\in\mathbb{R}^{n\times m}$, $B\in\mathbb{R}^{m \times p}$
+\[
+    \begin{array}{ccl}
+        x+y & m \text{ \rm flops} & O(m) \\
+        x^Ty& 2m-1 \text{ \rm flops}  & O(m) \\
+        Ax  & n\cdot(2m-1) \text{ \rm flops} & O(nm) \\ 
+        AB  & p\cdot n \cdot (2m-1)\text{ \rm flops} & O(pnm) \\ 
+    \end{array}
+\]
+\newpage    
+\end{multicols}
+
