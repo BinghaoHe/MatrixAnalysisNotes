@@ -1,6 +1,5 @@
 \section{Lecture 4. Eigenvalues and Eigenvectors}
 \begin{multicols}{2}
-\subsection{Definition}
 \begin{definition}[Eigenvalues and Eigenvector]
     Let $A\in\mathbb{R}^{m\times m}$, if a scalar $\lambda\in\mathbb{C}$ and a nonzero vector $v\in\mathbb{C}^m$ statisfy the equation 
     \[
@@ -192,6 +191,435 @@ Then
     So \[r\geq s\]
 \end{proof}
 If $s=r$, $A$ is diagonalizable.
+\subsection{Symmetric/Hermitian Matrices}
+\begin{itemize}
+    \item [-] \textbf{Symmetric} $A=A^T$ $A\in\mathbb{R}^{m\times n}$\\
+    \item [-] \textbf{Hermitian} $A=A^H$ $A\in\mathbb{C}^{m\times n}$
+\end{itemize}
+\textbf{Property 1}: The eigenvalues of a Hermitian matrix $A\in\mathbb{C}^{m\times n}$ are real-valued. \\
+\begin{proof} \\
+    Let $\lambda$ be the eigenvalue of $A$, $v$ be the eigenvector of $A$ and $\|v\|_2=1$. \\
+    $\Longrightarrow$ $Av=\lambda v$ \\
+    $\Longrightarrow$ $v^HAv=\lambda v^Hv=\lambda$ \\
+    $\overset{\text{\rm take} H}{\Longrightarrow}$ $v^HA^Hv=\lambda^*$ \\
+    Since $A$ is Hermitian, $A=A^H$ and hence $\lambda = \lambda^*$ \\
+    So $\lambda$ is real-valued
+\end{proof}
+\textbf{Property 2}: If $A\in\mathbb{C}^{m\times n}$ is Hermitian and that 
+\begin{itemize}
+    \item [-] $\lambda_i\neq\lambda_j$ be two eigenvalues,
+    \item [-] $v_i, v_j$ be the corresponding eigenvectors.
+\end{itemize}
+Then the eigenvectors are mutually orthogonal. \\
+\begin{proof}
+    \[
+    \left\{\begin{array}{l}
+        v_i^HAv_j = v_i^H(\lambda_jv_j)=\lambda_jv_i^Hv_j \\
+        v_j^HAv_i = v_j^H(\lambda_iv_i)=\lambda_iv_j^Hv_i \overset{\text{\rm take} H}{\Longrightarrow} v_i^HA^Hv_j = \lambda_iv_i^Hv_j
+    \end{array}\right.
+    \]
+    Since $v_i^HA^Hv_j=v_i^HAv_j$, so we have
+    \[
+        (\lambda_i-\lambda_j)v_i^Hv_j = 0 \Longrightarrow v_i^Hv_j = 0
+    \]
+\end{proof}
 
+\subsubsection{Unitarily diagonalizable}
+If Hermitian/symmetric $A$ is diagonalizable
+\[
+    A=VDV^{-1}
+\]
+where
+\begin{itemize}
+    \item [-] $V$ contains orthogonal eigenvectors and is unitary matrix,
+    \item [-] $D$ real-valued diagonal eigenvalues.
+\end{itemize}
+Therefore, $VV^H=I$ and $V^{-1}=V^H$. Thus, 
+\[
+    A = VDV^H
+\]
+And we say $A$ is unitarily diagonalizable.
+
+\subsubsection{Schur triangularization}
+Any $A\in\mathbb{C}^{m\times m}$ can be decomposed as an upper trangular matrix.
+\begin{theorem} [Schur triangularization]
+    Given $A\in\mathbb{C}^{m\times m}$ with eigenvalues $\lambda_1,\lambda_2,...,\lambda_m\in\mathbb{C}$ there 
+    exists a unitary matrix $U\in\mathbb{C}^{m\times m}$ such that 
+    \[
+        U^HAU = T \Longleftrightarrow A=UTU^H
+    \]
+    where $T$ is an upper triangular matrix with $[T]_{ii}=\lambda_i$, $i=1,2,...,m$
+\end{theorem}
+If $A\in\mathbb{C}^{m\times m}$, by Schur triangularization, there exists unitary $U\in\mathbb{C}^{m\times m}$ s.t. 
+\[
+    U^HAU = T 
+\]
+Then by taking $H$, we have
+\[
+    \underset{(=U^HAU)}{U^HA^HU}=T^H
+\]
+$\Longrightarrow$
+\[
+    T=T^H
+\]
+Since $T$ is an upper triangular matrix, so $T^H$ is a lower triangular matrix. Therefore, $T$ is diagonal.
+$\Longrightarrow$
+\[
+    U^HAU = T
+\]
+Thus, $A$ is diagonalizable.
+
+\begin{proof} for Schur Triangularization (\textbf{Theorem 3}) \\
+    \emph{This proof is also an algorithm.} \\
+    Let $v_1\in\mathbb{R}^m$ be the eigenvalue of $A$ associated with $\lambda_1$, i.e., $Av_1=\lambda_1v_1$. 
+    Without losing generality, we can assume $v_1^Hv_1=1$ and $\lambda_1\geq \lambda_2\geq ... \geq \lambda_m$
+
+    Construct a unitary matrix $U_1$
+    \[
+        U_1 = \begin{bmatrix}v_1 & V_1\end{bmatrix} \in\mathbb{C}^{m\times m} 
+    \]
+    where $V_1\in\mathbb{C}^{m\times (m-1)}$. $U_1$ being unitary indicates \[v_1^HV_1=\overrightarrow{0}^T\]
+    Then we have 
+    \[
+        U_1^HAU_1 = \begin{bmatrix} v_1^H \\ V_1^H \end{bmatrix} A \begin{bmatrix} v_1 & V_1 \end{bmatrix} 
+        = \begin{bmatrix}
+            v_1^HAv_1 & v_1^HAV_1 \\
+            V_1^HAv_1 & V_1^HAV_1
+        \end{bmatrix}
+    \]
+    where 
+    \[
+        \left\{\begin{array}{l}
+            v_1^HAv_1=\lambda_1 \\
+            v_1^HAV_1 \neq \overrightarrow{0} \\
+            V_1^HAv_1 = \overrightarrow{0}
+        \end{array}\right.
+    \]
+    So,
+    \[
+        U_1^HAU_1 = \begin{bmatrix}
+            \lambda_1 & \times \\
+            0 & V_1^HAV_1
+        \end{bmatrix}
+    \]
+    Define
+    \[
+        A_1 \triangleq V_1^HAV_1 \in \mathbb{C}^{(m-1)\times (m-1)}
+    \]
+    Then
+    \[
+        \begin{array}{ll}
+            P_{A}(\lambda) & = det(A-\lambda I) \\
+            & = det(U_1^HAU_1-\lambda I)^\dagger  \\ 
+            & = det\left(\begin{bmatrix}
+                \lambda_1 & \times \\
+                0 & A_1
+            \end{bmatrix}-\lambda I\right) \\
+            & = det\left(\begin{bmatrix}
+                \lambda_1-\lambda & \times \\
+                0 & A_1-\lambda I
+            \end{bmatrix}\right) \\
+            & = (\lambda_1-\lambda)\underbrace{det(A_1-\lambda I)}_{=P_{A_1}(\lambda)}
+        \end{array}
+    \]
+    $^\dagger$: $A=U_1(U_1^HAU_1)U_1^{-1}$ so $A$ is similar to $U_1^HAU_1$ and hence $A$ and $U_1^HAU_1$
+    have same eigenvalues.
+
+    Therefore, $A_1$ has eigenvalues $\lambda_2,\lambda_3,...,\lambda_m$ \\
+    Let $v_2\in\mathbb{C}^{m-1}$ be the eigenvector of $A_1$ associated with $\lambda_2$. \\
+    Construct a unitary matrix $U_2$
+    \[
+        U_2 = \begin{bmatrix}v_2 & V_2\end{bmatrix} \in\mathbb{C}^{(m-1)\times (m-1)} 
+    \]
+    where $V_2\in\mathbb{C}^{(m-1)\times (m-2)}$. $U_2$ being unitary indicates \[v_2^HV_2=\overrightarrow{0}^T\]\\ 
+    $\Longrightarrow$ 
+    \[
+        U_2^HA_1U_2 = \begin{bmatrix}
+            \lambda_2 & \times  \\
+            0 & V_2^HA_1V_2
+        \end{bmatrix}
+    \]
+    Let $\tilde{U}_2=\begin{bmatrix}
+        1 & 0^T \\ 0 & U_2
+    \end{bmatrix}$, then $\tilde{U}_2$ is unitary. \\
+    So,
+    \[
+        \begin{array}{ll}
+            \tilde{U}_2^H[U_1^HAU_1]\tilde{U}_2 & = \tilde{U}_2^H \begin{bmatrix}
+                \lambda_1 & \times \\
+                0 & A_1
+            \end{bmatrix} \tilde{U}_2 \\
+        & = \begin{bmatrix}
+            \lambda_1 & \times \\
+            0 & U_2^HA_1U_2
+        \end{bmatrix} \\
+        & = \begin{bmatrix}
+            \lambda_1 & \times \\
+            0 & \begin{bmatrix}
+                \lambda_2 & \times  \\
+                0 & V_2^HA_1V_2
+                \end{bmatrix}
+            \end{bmatrix} \\
+        & = \begin{bmatrix}
+            \lambda_1 & \times    & \times \\
+            0         & \lambda_2 & \times \\
+            0         & 0         & V_2^HA_1V_2
+        \end{bmatrix}
+        \end{array}
+    \]
+    Repeat this operations and we can finally get 
+    \[
+        \begin{array}{l}
+        \tilde{U}_m^H\cdots\tilde{U}_3^H\tilde{U}_2^H(U_1A \underbrace{U_1)\tilde{U}_2\tilde{U}_3\cdots\tilde{U}_m}_{\triangleq U \text{ \rm unitary}} \\
+        = \begin{bmatrix}
+            \lambda_1   & \times    & \times    & \times    \\
+                        & \lambda_2 & \times    & \times    \\
+                        &           & \ddots    & \times    \\
+                        &           &           & \lambda_m
+        \end{bmatrix}\triangleq T
+        \end{array}
+    \]
+    Therefore,
+    \[
+        U^HAU = T
+    \]
+\end{proof}
+\subsection{Variational Characterization of Eigenvalues}
+\subsubsection{Rayleigh quotient}
+\begin{definition}[Rayleigh quotient]
+    \[
+        R(A,x) = \frac{x^HAx}{\|x\|_2^2}=\left(\frac{x}{\|x\|_2}\right)^HA\left(\frac{x}{\|x\|_2}\right)
+    \]
+\end{definition}
+\begin{theorem}[Rayleigh-Ritz theorem]
+    Let $A\in\mathbb{C}^{m\times m}$ be Hermitian, then
+    \[
+        \begin{array}{ll}
+            \lambda_{\max}(A)    & = \max_{x\in\mathbb{C}^m} \frac{x^HAx}{\|x\|_2^2} \\
+                                 & = \max_{x\in\mathbb{C}^m} x^HAx \quad (\|x\|_2=1) \\
+            \lambda_{\min}(A)    & = \min_{x\in\mathbb{C}^m} \frac{x^HAx}{\|x\|_2^2}
+        \end{array}
+    \]
+    and 
+    \[
+        \lambda_{\min}(A)\cdot\|x\|_2^2 \leq x^HAx \leq \lambda_{\max}(A)\cdot\|x\|_2^2
+    \] 
+\end{theorem}
+\begin{proof} \\
+    According to the EVD of $A$,
+    \[
+        A = V \Lambda V^H = \sum_{i=1}^{m} (\lambda_i \cdot v_i v_i^H)
+    \]
+    $\Longrightarrow$
+    \[
+        \begin{array}{ll}
+            x^HAx & = x^H V \Lambda V^H x  \\
+            & = \sum_{i=1}^{m} (\lambda_i \cdot x^H v_i v_i^H x)  \\
+            & = \sum_{i=1}^{m} (\lambda_i \cdot |v_i^Hx|^2)  \\ 
+            & \leq \lambda_{\max}(A) \cdot \sum_{i=1}^{m} |v_i^Hx|^2
+        \end{array}
+    \]
+    Since
+    \[
+        \sum_{i=1}^{m} |v_i^Hx|^2 = x^HVV^Hx = \|x\|_2^2
+    \]
+    So,
+    \[
+        x^HAx \leq \lambda_{\max}(A) \cdot \|x\|_2^2
+    \]
+    $\Longrightarrow$ 
+    \[
+        \frac{x^HAx}{\|x\|_2^2} \leq \lambda_(\max)(A)
+    \]
+    The equality holds only when $x=v_1$, which is an eigenvector associated with $\lambda_{\max}(A)$ and is called the principal eigenvector.
+\end{proof}
+
+\subsubsection{Courant-Fischer theorem}
+\begin{theorem}[Courant-Fischer theorem]
+    Let $A\in\mathbb{C}^{m\times m}$ be Hermitian and $\lambda_1\geq \lambda_2 \geq \cdots \geq \lambda_m$ are ordered eigenvalues. Then
+    \[
+        \begin{array}{llc}
+            \lambda_k &=&  \underset{\omega_1,\omega_2,...,\omega_{k-1}}{\min} \left\{\underset{x\in\mathbb{C}^m,x\bot \omega_1,\omega_2,...,\omega_{k-1}}{\max} \frac{x^HAx}{\|x\|_2^2}\right\}\\
+            &=&    \underset{\omega_{k+1},\omega_{k+2},...,\omega_{m}}{\max} \left\{\underset{x\in\mathbb{C}^m,x\bot \omega_{k+1},\omega_{k+2},...,\omega_{m}}{\min} \frac{x^HAx}{\|x\|_2^2}\right\}        
+        \end{array}
+    \]
+\end{theorem}
+\textbf{Proof ideas}: \\
+1.
+\[
+    \underset{x\in\mathbb{C}^m,x\bot v_1,v_2,...,v_{k-1}}{\max} \frac{x^HAx}{\|x\|_2^2} = \lambda_k
+\]
+where $v_k$ is the eigenvector associated with $\lambda_k$ of $A$ \\
+2.
+\[
+    \underset{x\in\mathbb{C}^m,x\bot \omega_1,\omega_2,...,\omega_{k-1}}{\max} \frac{x^HAx}{\|x\|_2^2} \geq \lambda_k
+\]
+1+2 $ \Longrightarrow$
+\[
+    \underset{\omega_1,\omega_2,...,\omega_{k-1}}{\min} \left\{\underset{x\in\mathbb{C}^m,x\bot \omega_1,\omega_2,...,\omega_{k-1}}{\max} \frac{x^HAx}{\|x\|_2^2}\right\}
+    =\lambda_k
+\]
+attained when $\omega_i = v_i$ ($i=1,...,k-1$)
+
+
+\begin{proof} \\
+    1. \\
+    Since $A=V\Lambda V^H=\sum_{i=1}^m\lambda_iv_iv_i^H$,
+    \[
+        \begin{array}{l}
+            \underset{x\in\mathbb{C}^m,x\bot v_1,v_2,...,v_{k-1}}{\max} \frac{x^HAx}{\|x\|_2^2} \\
+            = \underset{x\in\mathbb{C}^m,x\bot v_1,v_2,...,v_{k-1}}{\max} \frac{\sum_{i=1}^m\lambda_i|v_i^Hx|^2}{\|x\|_2^2} \\
+            = \underset{x\in\mathbb{C}^m,x\bot v_1,v_2,...,v_{k-1}}{\max} \frac{\sum_{i=k}^m\lambda_i|v_i^Hx|^2}{\|x\|_2^2} \\
+            \leq \underset{x\in\mathbb{C}^m}{\max} \frac{\sum_{i=k}^m\lambda_i|v_i^Hx|^2}{\|x\|_2^2} \quad(\text{\rm Relax constraint}) \\
+            \leq \underset{x\in\mathbb{C}^m}{\max} \frac{\lambda_k\sum_{i=k}^m|v_i^Hx|^2}{\|x\|_2^2} ^\dagger \\
+            \leq \lambda_k \quad (\text{\rm equality attained if } x=v_k)
+        \end{array}
+    \]
+    $^\dagger$: $\sum_{i=k}^m|v_i^Hx|^2=x^HVV^Hx=\|x\|_2^2$.
+
+    Therefore, 
+    \[
+        \underset{x\in\mathbb{C}^m,x\bot v_1,v_2,...,v_{k-1}}{\max} \frac{x^HAx}{\|x\|_2^2} = \lambda_k
+    \]
+    2. \\
+    Let $y=V^Hx$
+    \[
+        \begin{array}{l}
+            \underset{x\bot \omega_1,...,\omega_{k-1}}{\max} \frac{x^HAx}{\|x\|_2^2} \\
+            = \underset{x\bot \omega_1,...,\omega_{k-1}}{\max} \frac{x^HV\Lambda V^H x}{\|x\|_2^2} \\
+            = \underset{y\bot V^H\omega_1,...,V^H\omega_{k-1}}{\max} \frac{y^H\Lambda y}{\|y\|_2^2} \\
+            \geq \underset{y\bot V^H\omega_1,...,V^H\omega_{k-1},y_{k+1}=y_{k+2}=\cdots=y_{m}=0,\|y\|_2=1}{\max} y^H\Lambda y \\
+            = \underset{y\bot V^H\omega_1,...,V^H\omega_{k-1},|y_1|^2+|y_2|^2+\cdots+|y_k|^2=1}{\max} \sum_{i=1}^k \lambda_i|y_i|^2 \\
+            \geq \lambda_k 
+        \end{array}
+    \]
+
+\end{proof}
+
+\subsubsection{Weyl's inequality}
+For $A, B\in\mathbb{C}^{m\times m}$ be two Hermitian matrices. \\ Then
+\begin{enumerate}
+    \item $\lambda_k(A) + \lambda_m(B) \leq \lambda_k(A+B) \leq \lambda_k(A) + \lambda_1(B)$
+    \item $\lambda_{k+1}(A) \leq \lambda_k(X\pm zz^H) \leq \lambda_{k-1}(A)$
+    \item $\lambda_{k+r}(A) \leq \lambda_k(A+B) \leq \lambda_{k-r}(A)$ where $rank(B)\leq r$
+    \item $\lambda_{j+k-1}(A+B) \leq \lambda_j(A) + \lambda_k(B) \leq \lambda_{j+k-m}(A+B)$
+    \item Let $A_I$ be the principal submatrix of $A$ associated with subset $I=\{i_1,i_2,...,i_r\}\subseteq \{1,2,...,m\}$
+    \[
+        \lambda_{k+m-r}(A) \leq \lambda_k(A_I) \leq \lambda_k(A)
+    \]
+    \item Let $U\in\mathbb{C}^{m\times r]}$ be semiunitary
+    \[
+        \lambda_{k+m-r} \leq \lambda_k(U^HAU) \leq \lambda_k(A)
+    \]
+\end{enumerate}
+\begin{proof} 1. 
+    \[
+        \lambda_k(A+B) = \underset{\omega_1,...,\omega_{k-1}}{\min} \left\{\underset{x\in\mathbb{C}^m,x\bot \omega_1,...,\omega_{k-1}}{\max} \frac{x^H(A+B)x}{\|x\|_2^2}\right\}
+    \]
+    where
+    \[
+        \frac{x^H(A+B)x}{\|x\|_2^2} = \frac{x^HAx}{\|x\|_2^2} + \underbrace{\frac{x^HBx}{\|x\|_2^2}}_{\leq \lambda_1(B)}
+    \]
+    So,
+    \[
+        \begin{array}{l}
+            \lambda_k(A+B) \\
+            \leq \underbrace{\underset{\omega_1,...,\omega_{k-1}}{\min} \left\{\underset{x\in\mathbb{C}^m,x\bot \omega_1,...,\omega_{k-1}}{\max} \frac{x^HAx}{\|x\|_2^2}\right\}}_{=\lambda_k(A)} + \lambda_1(B)
+        \end{array}
+    \]
+    Therefore,
+    \[
+        \lambda_k(A+B) \leq \lambda_k(A) + \lambda_1(B)
+    \]
+\end{proof}
+
+\begin{proof} 2.
+    \[
+        \begin{array}{l}
+            \lambda_k(A \pm zz^H) \\ 
+            = \underset{\omega_1,...,\omega_{k-1}}{\min} \left\{\underset{x\in\mathbb{C}^m,x\bot \omega_1,...,\omega_{k-1}}{\max} \frac{x^H(A\pm zz^H)x}{\|x\|_2^2}\right\} \\
+            \geq \underset{\omega_1,...,\omega_{k-1}}{\min} \left\{\underset{x\in\mathbb{C}^m,x\bot \omega_1,...,\omega_{k-1},\boxed{z}}{\max} \frac{x^H(A\pm zz^H)x}{\|x\|_2^2}\right\} \\
+            = \underset{\omega_1,...,\omega_{k-1},\omega_k=z}{\min} \left\{\underset{x\in\mathbb{C}^m,x\bot \omega_1,...,\omega_{k-1},\omega_k}{\max} \frac{x^HAx}{\|x\|_2^2}\right\} \\
+            \geq \underset{\omega_1,...,\omega_{k-1},\omega_k}{\min} \left\{\underset{x\in\mathbb{C}^m,x\bot \omega_1,...,\omega_{k-1},\omega_k}{\max} \frac{x^HAx}{\|x\|_2^2}\right\} \\
+            = \lambda_{k+1}(A)
+        \end{array}
+    \]
+\end{proof}
+
+\begin{proof} 3.
+    \[
+        \because B=\sum_{i=1}^r \lambda_i(B)u_iu_i^H
+    \]
+    \[
+        \therefore A+B = A + \sum_{i=1}^{r-1} \lambda_i(B)u_iu_i^H + \lambda_r(B)u_ru_r^H
+    \]
+    Define $B^{r-k}\triangleq \sum_{i=1}^{r-k} \lambda_i(B)u_iu_i^H$ $k=0,1,...,r$
+    \[
+        \lambda_{k+1}(A+B^{r-1}) \leq \lambda_k(A + B^{r-1} + \lambda_r(B)u_ru_r^H) \leq \lambda_{k-1}(A+B^{r-1})
+    \]
+    Do again and we get 
+    \[
+        \begin{array}{ll}
+            \lambda_{k+2}(A+B^{r-2}) & \leq \lambda_{k+1}(A + B^{r-2} + \lambda_{r-1}(B)u_{r-1}u_{r-1}^H) \\ &= \lambda_{k+1}(A+B^{r-1})
+        \end{array}
+    \]
+    Repeat $r$ times, we can get 
+    \[
+        \lambda_{k+r}(A) \leq \lambda_k(A+B) \leq \lambda_{k-r}(A)
+    \]
+    where $rank(B)\leq r$
+\end{proof}
+
+\begin{proof} 4. \\
+    Define $A_{j-1}=\sum_{i=1}^{j-1}\lambda_i(A)v_iv_i^H$ (if $A=V\Lambda V^H $). \\
+    Define $B_{k-1}=\sum_{i=1}^{k-1}\lambda_i(B)u_iu_i^H$ (if $B=U\Lambda U^H $). \\
+    Then 
+    \[
+        \lambda_j(A) = \lambda_1(A-A_{j-1})
+    \]
+    \[
+        \lambda_k(B) = \lambda_1(B-B_{k-1})
+    \]
+    $\Longrightarrow$
+    \[
+        \begin{array}{ll}
+            \lambda_j(A)+\lambda_k(B)   & = \lambda_1(A-A_{j-1})+\lambda_1(B-B_{k-1}) \\
+                                        & \geq \lambda_1(A+B-(A_{j-1}+B_{k-1})) \\
+                                        & \geq \lambda_{j+k-1}(A+B)^\dagger
+        \end{array}
+    \]
+    $^\dagger$: $rank((A_{j-1}+B_{k-1})\leq j+k-2$ and from 3.
+\end{proof}
+
+\begin{proof} 5. 
+    \[
+        \begin{array}{l}
+            \lambda_k(A) \\
+            = \underset{\omega_1,...,\omega_{k-1}}{\min} \left\{\underset{x\bot \omega_1,...,\omega_{k-1},\|x\|_2=1}{\max} x^HAx \right\} \\
+            \geq \underset{\omega_1,...,\omega_{k-1}}{\min} \left\{\underset{x\bot \omega_1,...,\omega_{k-1},\|x\|_2=1,x\in span\{e_{i_1},...,e_{i_r}\}}{\max} x^HAx \right\} ^\dagger \\
+            = \underset{v_1,...,v_{k-1}}{\min} \left\{\underset{y\bot v_1,...,v_{k-1},\|y\|_2=1\}}{\max} y^HAy \right\} ^\ddagger \\
+            = \lambda_k(A_I)
+        \end{array}
+    \]
+    $^\dagger$: $e_i=\begin{bmatrix}
+        \textbf{0}  \\ 1  \\ \textbf{0}
+    \end{bmatrix}$, only the $i$th entry equal to 1. \\
+    $^\ddagger$: Define $y\in \mathbb{C}^{r}$, $y_\ell = x_{i_\ell}$ ($\ell = 1,...,r$) and take $v_i\in\mathbb{C}^r$, $(v_i)_\ell = (\omega_i)_{i_\ell}$
+\end{proof}
+
+\begin{proof} 6. \\
+    Let $\tilde{U}=[\underbrace{U}_{\in\mathbb{C}^{m\times r}}, \underbrace{\bar{U}}_{\in\mathbb{C}^{m\times r}}]$ be unitary. Then
+    \[
+        \tilde{U}^HA\tilde{U} = \begin{bmatrix}
+            U^HAU  & \times \\
+            \times & \times
+        \end{bmatrix}
+    \]
+    where $U^HAU$ is the principal submatrix of $\tilde{U}^HA\tilde{U}$ with $I={1,2,...,r}$\\
+    Therefore, 
+    \[
+        \lambda_k(A) = \lambda_k(\tilde{U}^HA\tilde{U}) \geq \lambda_k(U^HAU)
+    \]
+\end{proof}
 \newpage
 \end{multicols}
