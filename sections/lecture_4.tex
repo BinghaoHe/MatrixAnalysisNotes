@@ -1,7 +1,7 @@
 \section{Lecture 4. Eigenvalues and Eigenvectors}
 \begin{multicols}{2}
 \begin{definition}[Eigenvalues and Eigenvector]
-    Let $A\in\mathbb{R}^{m\times m}$, if a scalar $\lambda\in\mathbb{C}$ and a nonzero vector $v\in\mathbb{C}^m$ statisfy the equation 
+    Let $A\in\mathbb{R}^{m\times m}$, if a scalar $\lambda\in\mathbb{C}$ and a nonzero vector $v\in\mathbb{C}^m$ satisfy the equation 
     \[
         Av=\lambda v
     \]
@@ -621,5 +621,79 @@ For $A, B\in\mathbb{C}^{m\times m}$ be two Hermitian matrices. \\ Then
         \lambda_k(A) = \lambda_k(\tilde{U}^HA\tilde{U}) \geq \lambda_k(U^HAU)
     \]
 \end{proof}
+
+\subsection{The Power Method}
+The power method is a simple method to obtain eigenvector/eigenvalue of a matrix, particularly for large scale problem.
+\begin{algorithm}[Power Method]
+Given a matrix $A\in\mathbb{C}^{m\times m}$ and $v^0\in\mathbb{C}^m$
+\[
+    v^{(k+1)}\leftarrow \frac{A\cdot v^{(k)}}{\|A\cdot v^{(k)}\|_2}
+\]
+until a stopping condition is met.
+\end{algorithm}
+$\Longrightarrow$ $v^{(k+1)}$ takes as an estimate of the \textbf{principle eigenvector} of $A$. \\
+Assumption: 
+\begin{itemize}
+    \item [-] $A$ is diagonalizable (in particular, $A$ is Hermitian (symmetric)). $A=V\Lambda V^H$.
+    \item [-] $|\lambda_1|\geq |\lambda_2|\geq ... \geq |\lambda_m|$ and $|\lambda_1|>|\lambda_2|$
+\end{itemize}
+$v^{(k+1)} = \frac{A\cdot v^{(k)}}{\|A\cdot v^{(k)}\|_2} = \frac{A^{k+1}\cdot v^{(0)}}{\|A^{k+1}\cdot v^{(0)}\|_2}$
+
+
+
+
+Consider $A^kx$, $x$ satisfies $[V^Hx]_1\neq 0$. ($x$ is $v^{(0)}$)\\
+Let $\alpha = V^Hx$ \\
+\[
+    A^k\cdot x = (V\Lambda^kV^H)\cdot x = V\Lambda^k \alpha 
+\]
+Let $V=[v_1,v_2,...,v_m]$
+\[
+    \begin{array}{ll}
+        A^k\cdot x  &= V\Lambda^k \alpha \\
+                    &= \sum_{i=1}^mv_i\cdot \lambda_i^k \cdot \alpha_i \\
+                    &= v_1(\lambda_1\alpha_1) + \sum_{i=2}^m\alpha_i\lambda_i^kv_i \\
+                    &= \lambda_1^k\alpha_1 (v_1+\underbrace{\sum_{i=2}^m \frac{\alpha_i}{\alpha_1} \left(\frac{\lambda_i}{\lambda_1}\right) ^kv_i}_{\triangleq r_k(\textbf{\rm residule})})
+    \end{array}
+\]
+$\Longrightarrow$
+\[
+    \begin{array}{ll}
+        \|r_k\|_2   &=      \|\sum_{i=2}^m \frac{\alpha_i}{\alpha_1} \left(\frac{\lambda_i}{\lambda_1}\right) ^kv_i\|_2 \\
+                    &\leq   \sum_{i=1}^m \frac{\alpha_i}{\alpha_1} \cdot \left(\frac{\lambda_i}{\lambda_1}\right) ^k \cdot \underbrace{\|v_i\|_2}_{=1} \\
+                    &\leq   \underbrace{|\frac{\lambda_2}{\lambda_1}|^k}_{<1}\cdot \sum_{i=1}^m |\frac{\alpha_i}{\alpha_1}| \to 0 \text{ \rm as } k\to \infty
+
+    \end{array}
+\]
+Consider $c_k=\frac{|\alpha_1||\lambda_1^k|}{\alpha_1\lambda_1^k}$ and $\lim_{k\to\infty} c_k\cdot \frac{A^k\cdot x}{\|A^k\cdot x\|_2}$
+\[
+    \begin{array}{l}
+        c_k\cdot \frac{A^k\cdot x}{\|A^k\cdot x\|_2}    \\
+        = \frac{|\alpha_1||\lambda_1^k|}{\alpha_1\lambda_1^k}\cdot \frac{1}{\|A^k\cdot x\|_2^\dagger}\cdot \lambda_1^k\alpha_1\left(v_1+\sum_{i=2}^m\frac{\alpha_i}{\alpha_1}\left(\frac{\lambda_i}{\lambda_1}\right)^kv_i\right) \\
+        = \frac{|\alpha_1||\lambda_1^k|}{\sqrt{\sum_{i=1}^m (\lambda_i^k)^2 \alpha_i^2}}^\ddagger \cdot \left(v_1+\underbrace{\sum_{i=2}^m\frac{\alpha_i}{\alpha_1}\left(\frac{\lambda_i}{\lambda_1}\right)^kv_i}_{\to 0 \text{ \rm as }k\to \infty}\right) 
+    \end{array}
+\]
+$^\dagger$: $\|A^kx\|_2 = \|V\Lambda^k V^H x\|_2 = \|V\Lambda^k \alpha\|_2 = \|\Lambda^k \alpha\|_2 = \sqrt{\sum_{i=1}^m(\lambda_i^k \alpha_i)^2}$ \\
+$^\ddagger$:
+$
+    \begin{array}{ll}
+        \frac{|\alpha_1||\lambda_1^k|}{\sqrt{\sum_{i=1}^m (\lambda_i^k)^2 \alpha_i^2}}  &= \frac{|\alpha_1||\lambda_1^k|}{\sqrt{(\lambda_1^k)^2 \alpha_1^2 + \sum_{i=2}^m (\lambda_i^k)^2 \alpha_i^2}} \\
+                                                                                        &= \frac{1}{\sqrt{1+\sum_{i=2}^m \left(\frac{\lambda_i}{\lambda_1}\right)^{2k} \left(\frac{\alpha_i}{\alpha_1}\right)^2}}
+    \end{array}
+$\\
+Since $\sum_{i=2}^m \left(\frac{\lambda_i}{\lambda_1}\right)^{2k} \left(\frac{\alpha_i}{\alpha_1}\right)^2 \to 0$ as $k\to \infty$, so $\frac{|\alpha_1||\lambda_1^k|}{\sqrt{\sum_{i=1}^m (\lambda_i^k)^2 \alpha_i^2}}\to 1$ as $k\to \infty$.
+
+Therefore, $\lim_{k\to\infty} c_k\cdot \frac{A^k\cdot x}{\|A^k\cdot x\|_2}\to v_1$.
+
+\textbf{Deflation}:
+\[
+    \begin{array}{ll}
+        A &= \sum_{i=1}^{m} \lambda_i v_i v_i^H \\
+          &= \lambda_1 v_1 v_1^H + \sum_{i=2}^{m} \lambda_i v_i v_i^H
+    \end{array}
+\]
+Obtain $A^{(1)}=A-\lambda_1v_1v_1^H$ and apply power method to obtain $v_2$. \\
+Obtain $A^{(2)}=A-\lambda_2v_2v_2^H$ and apply power method to obtain $v_3$. \\
+...
 \newpage
 \end{multicols}
