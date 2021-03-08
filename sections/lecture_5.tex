@@ -120,7 +120,7 @@ This is positive column-stochastic
     1^TM = (1-\beta)1^TA + \beta 1^T \left( \frac{11^T}{m} \right) = 1^T
 \]
 
-\subsection{Answer to Question 2}
+\subsubsection{Answer to Question 2}
 Does $Av=v$ admit a non-negative solution? ($v\geq 0$ or $v\leq 0$)
 
 \begin{theorem}
@@ -139,7 +139,42 @@ Does $Av=v$ admit a non-negative solution? ($v\geq 0$ or $v\leq 0$)
     Contradict! So the above theorem is true.
 \end{proof}
 
-\subsection{Answer to Question 3}
+\subsubsection{Answer to Question 3}
+Is the solution unique? (unique ranking) \\
+Since $Mv=v$ $\Longrightarrow$ $(M-I)v=0$, show 
+\[
+    dim(Null(M-I))=1
+\]
+i.e., there is a unique ranking.
 
+\begin{proof}
+
+    Simple lemma: Let $a$ and $b$ be linearly independent, then $\exists x\in span\{a,b\}$ which has mixed sign. \\
+    \emph{Proof for this lemma}: \\
+    If $1^Tq=0$ $\Longrightarrow$ $q$ has mixed sign. \\
+    If $1^Tq\neq 0$, set $\alpha_1 = \frac{-1^Tb}{1^Tq}$, $\alpha_2=1$ and let $x=\alpha_1\cdot a+\alpha_2\cdot b$ \\
+    $\Longrightarrow$ $x$ satisfies $1^Tx=0$, so $x$ has mixed sign.
+
+    Suppose $dim(Null(M-I))>1$, then for $q_1,q_2\in Null(M-I)$ that are linear independent.
+    $\Longrightarrow$ $\exists v= \alpha_1 q_1  + \alpha_2 q_2 \in Null(M-I)$ \\
+    $\Longrightarrow$ $Mv=v$ which has mixed sign. (Contradict!) \\
+    $\Longrightarrow$ $dim(Null(M-I))=1$
+\end{proof}
+
+\subsubsection{Answer to Question 4}
+Can we obtain the solution efficiently? (Power method applicable?) \\
+Property:
+Let $M$ be positive and column-stochastic. \\
+Let $S=\{v\in \mathbb{R}^m | 1^Tv=0 \}$. \\
+Then,
+\begin{enumerate}
+    \item $Mv\in S$ if $v\in S$
+    \item $\|Mv\|_1 \leq c\|v\|_1$ with $c<1$ $\forall$ any $v\in S$
+    \item the eigenvector associated with $\lambda=1$, denoted $v_1$, can be obtainable by the power method
+\end{enumerate}
+\begin{proof} \\
+    1) $v\in S$ $\Longleftrightarrow$ $1^Tv=0$ \\
+    2) 
+\end{proof}
 \newpage
 \end{multicols}
