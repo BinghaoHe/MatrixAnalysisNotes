@@ -1,0 +1,163 @@
+\section{Lecture 6. Positive Semidefinite Matrix}
+\setcounter{theorem}{0}
+\begin{multicols}{2}
+For $A\in\mathbb{C}^{m\times m}$, if
+\begin{itemize}
+    \item [-] $A$ is symmetric, we denote $A\in S^m$
+    \item [-] $A$ is Hermitian, we denote $A\in H^m$
+\end{itemize}
+\begin{definition}
+    We say $A\in H^m$ is positive semidefinite (PSD) if 
+    \[
+        x^H A x \geq 0 \quad \forall x\in\mathbb{C}^m
+    \]
+    We say $A\in H^m$ is positive definite (PD) if 
+    \[
+        x^H A x > 0 \quad \forall x\in\mathbb{C}^m,x\neq 0
+    \]
+    We say $A\in H^m$ is indefinite if $A$ is not PSD.
+\end{definition}
+\subsection{Properties of PSD Matrices}
+\subsubsection{Propeties}
+\textbf{Property 1}: If $A$ is PSD then any principal submatrix of $A$ ($A_I$) is PSD. \\
+\begin{proof} \\
+    Let $x\in\mathbb{C}^m$ with $x_{i_k}\neq 0$ for all $i_k \notin I$. \\
+    Let $(x_I)_k=x_{i_k}$ for $i_k\in I$. \\
+    Then
+    \[
+        x^HAx = x_I^HA_Ix_I \geq 0,\quad \forall x_I\in \mathbb{C}^{|I|}
+    \]
+\end{proof}
+By Property 1, we know \\
+1) 
+\[
+    A = \begin{bmatrix}
+        A_{11} & A_{12} \\ A_{21} & A_{22}
+    \end{bmatrix}
+\]
+\[
+    A_{11}\in H^{k\times k}, A_{22}\in H^{(m-k)\times (m-k)}
+\]
+If $A$ is PSD(PD) $\Longrightarrow$ $A_{11}$, $A_{22}$ are PSD(PD).
+2) \\
+If $A$ is PSD(PD), then $A_{ii}\geq 0(>0)$
+
+\subsubsection{Eigenvalues of PSD matrices}
+\begin{theorem}
+    $A\in H^m$ is PSD(PD) if and only if $\lambda_1,\lambda_2,...,\lambda_3\geq 0(>0)$
+\end{theorem}
+\begin{proof} \\
+    Consider EVD of $A$ as 
+    \[
+        A=V\Lambda V^H, \quad \Lambda=diag(\lambda_1,\lambda_2,...,\lambda_m)
+    \]
+    Consider $x^HAx=x^HV\Lambda V^Hx=z^H\Lambda z$. 
+
+    $A$ is PSD $\Longleftrightarrow$ $x^HAx\geq 0$ $\forall x\in\mathbb{C}^m$ $\Longleftrightarrow$ $z^H\Lambda z\geq 0$ $\forall z\in\mathbb{C}^m$.
+
+    $z^H\Lambda z=\sum_{i=1}^m \lambda_i |z_i|^2 \geq 0$ $\forall z\in\mathbb{C}^m$ $\Longleftrightarrow$ $\lambda_i\geq 0$ $\forall i=1,...,m$
+\end{proof}
+
+If $A$ is PSD(PD),
+\begin{itemize}
+    \item [-] $Tr(A)\geq 0 (>0)$
+    \item [-] $det(A) \geq 0 (>0)$
+\end{itemize}
+
+If $A$ is PD, then $A$ is invertible.
+\[
+    A = V\Lambda V^H
+\]
+\[
+    A^{-1} = V\Lambda^{-1} V^H
+\]
+
+\textbf{Property 2}: $A\in H^m$ can be factorized as $A=BB^H$ for some matrix $B$ if and only if $A$ is PSD. \\
+\begin{proof} \\
+    $\Longrightarrow$:
+    \[
+        x^HAx = x^HBB^Hx = \|B^Hx\|^2 \geq 0 \Longrightarrow A \text{\rm is PSD}
+    \]
+    $\Longleftarrow$:\\
+    If $A$ is PSD, define $\Lambda^{1/2}=diag(\sqrt{\lambda_1},\sqrt{\lambda_2},...,\sqrt{\lambda_m})$
+    \[
+        \begin{array}{ll}
+            A &= V\lambda V^H \\
+            &= V\Lambda^{1/2}\Lambda^{1/2}V^H \\
+            &= V\Lambda^{1/2}Q^HQ\Lambda^{1/2}V^H
+        \end{array}
+    \]
+    where $Q$ is a Hermitian matrix. \\
+    Define $B\triangleq V\Lambda^{1/2}Q^H$. Then, $A=BB^H$.
+\end{proof}
+
+\begin{theorem}
+    Consider $A\in H^m$, $B\in\mathbb{C}^{m\times n}$ and $C=B^HAB$
+    \begin{itemize}
+        \item [-] If $A$ is PSD, then $C$ is PSD.
+        \item [-] If $A$ is PD, then $C$ is PD if and only if $rank(B)=n$
+        \item [-] If $B$ is square and invertible, then $A$ is PSD(PD) if and only if $C$ is PSD(PD)
+    \end{itemize}
+\end{theorem}
+\begin{proof} of 2)\\
+    $(\Longrightarrow)$ Show $C$ is PSD $\Longrightarrow$ $rank(B)=n$\\
+    Assume $B$ is not full column rank.\\
+    Consider $x^HCx=x^HB^HABx$, then there exists $x\neq 0$ s.t. $Bx=0$ $\Longrightarrow$ $x^HCx=0$ (Contradict!)
+    $(\Longleftarrow)$ Show $rank(B)=n$ $\Longrightarrow$ Show $C$ is PSD \\
+    $rank(B)=n$ $\Longrightarrow$ $Bx=0$ iff $x=0$. So $\forall x\neq 0$ $\Longrightarrow$ $Bx\neq 0$. \\
+    $\Longrightarrow$ $x^HCx = x^HB^H A Bx > 0$ as $A$ is PD. So $C$ is PD.
+\end{proof}
+
+\textbf{Property 3}: Let $A\in\mathbb{C}^{m\times k}$ and $B\in\mathbb{C}^{k}$ and $B$ has full row rank ($rank(B)=k$). Then 
+\[
+    Range(A) = Rnage(AB)
+\]
+\begin{proof} \\
+    $Range(B)=\mathbb{C}^k$ as $B$ is full row rank.
+    \[
+        \begin{array}{ll}
+            Range(AB) &= \{ y|y=ABx, x\in\mathbb{C}^n \} \\
+            &= \{ y | y=Az, \underbrace{z=Bx,x\in\mathbb{C}^n}_{z\in Range(B)=\mathbb{C}^k} \} \\
+            &= \{ y | y=Az, z\in\mathbb{C}^k \} \\
+            &= Range(A)
+        \end{array}
+    \]
+\end{proof}
+
+\textbf{Property 4}: Let $B\in\mathbb{C}^{m\times k}$ and $C\in\mathbb{C}^{m\times k}$ be two matrices with full column rank. Then
+\[
+    BB^H=CC^H
+\]
+if and only if $C=BQ$ for some unitary $Q$.
+\begin{proof} \\
+    ($\Longleftarrow$): obvious. \\
+    ($\Longrightarrow$): $(C^H)^{+}\triangleq C(C^HC)^{-1}$. Since $rank(C^HC)=rank(C)$, $C^HC$ is invertible $^\dagger$. \\
+    $^\dagger$: As $C$ has full column rank, then $Cx=0$ $\Longleftrightarrow$ $x=0$. 
+    $Cx=0 \Longrightarrow C^HCx=0 \Longrightarrow x^HC^HCx=0 \Longleftrightarrow \|Cx\|^2=0 \Longrightarrow x=0$. Therefore, $C^HCx=0\Longrightarrow x=0$ and hence $rank(C^HC)=rank(C)$.
+
+    \[
+        \begin{array}{ll}
+            BB^H(C^H)^+ &= CC^H(C^H)^{+} \\
+            &= CC^HC(C^HC)^{-1} \\
+            &= C
+        \end{array}
+    \]
+    $\Longrightarrow$ 
+    \[
+        \begin{array}{ll}
+            C &= BB^H(C^H)^+ \\
+            &= B\underbrace{B^HC(C^HC)^{-1}}_{\triangleq Q (\text{\rm square})}
+        \end{array}
+    \]
+    \[
+        \begin{array}{ll}
+            Q^HQ &= (C^HC)^{-H}C^HBB^HC(C^HC)^{-1} \\
+            &= \underbrace{(C^HC)^{-H}C^HC}_{=I}\underbrace{C^HC(C^HC)^{-1}}_{=I} \\
+            &= I
+        \end{array}
+    \]
+    Therefore, $Q$ is unitary.
+\end{proof}
+
+\newpage
+\end{multicols}
