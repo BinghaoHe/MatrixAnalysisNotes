@@ -159,5 +159,91 @@ if and only if $C=BQ$ for some unitary $Q$.
     Therefore, $Q$ is unitary.
 \end{proof}
 
+\subsection{Matrix Inequality}
+For $A,B\in H^{m\times m}$, we write $A\succeq (\succ) B$ if $A-B$ is a PSD(PD) matrix.\\
+So $A\succeq 0$ if $A$ is PSD.\\
+\textbf{Basic Properties}:
+\begin{itemize}
+    \item [-] If $A \succeq 0$, then $\alpha A \succeq 0$ $\forall \alpha \geq 0$
+    \item [-] If $A \succeq 0$, $A\succeq 0$, then $\alpha A+B \succeq 0$
+    \item [-] If $A \succeq B$, $B\succeq C$, then $\alpha A \succeq C$
+    \item [-] If $A \nsucceq B$, it doesn't imply $B\succ A$
+\end{itemize}
+
+Let $\lambda_1(A)\geq \lambda_2(A) \geq \cdots \geq \lambda_m(A)$ for $A\in H^{m\times m}$, then
+\begin{enumerate}
+    \item $A \succeq I$ $\Longleftrightarrow$ $\lambda_i(A)\geq 1$ $\forall i=1,...,m$
+    \item $I \succeq A$ $\Longleftrightarrow$ $\lambda_i(A)\leq 1$ $\forall i=1,...,m$
+    \item Suppose $A,B\succ 0$, then $A \succeq B$ $\Longleftrightarrow$ $B^{-1} \succeq A^{-1}$
+    \item If $A\succeq B$, then $\lambda_i(A) \geq \lambda_i(B)$ $\forall i=1,...,m$
+\end{enumerate}
+\begin{proof}\\
+    1) \\
+    $A\succeq I$ $\Longleftrightarrow$ $A-I\succ 0$ $\Longleftrightarrow$ $V\Lambda V^H -I\succeq 0$ $\Longleftrightarrow$ 
+    $V(\Lambda - I) V^H \succeq 0$ $\Longleftrightarrow$ $\Lambda -I \succeq 0$ $\Longleftrightarrow$ $\lambda_i(A)\geq 1$ $\forall i=1,...,m$
+
+    2) similar to 1)
+
+    3) \\
+    $\begin{array}{ll}
+        A \succeq B & \Longleftrightarrow A-B\succeq 0 \\
+                    & \Longleftrightarrow A^{\frac{1}{2}}A^{\frac{1}{2}} - B \succeq 0 \\
+                    & \Longleftrightarrow A^{\frac{1}{2}}(I-A^{-\frac{1}{2}}BA^{-\frac{1}{2}})A^{\frac{1}{2}} \succeq 0 \\
+                    & \Longleftrightarrow I-A^{-\frac{1}{2}}BA^{-\frac{1}{2}} \succeq 0 \\
+                    & \Longleftrightarrow \lambda_i(A^{-\frac{1}{2}}BA^{-\frac{1}{2}} ) \leq 1 \quad \forall i = 1,...,m \\
+                    & \Longleftrightarrow \frac{1}{\lambda_i(A^{\frac{1}{2}}B^{-1}A^{\frac{1}{2}} )} \leq 1 \quad \forall i = 1,...,m ^\dagger\\
+                    & \Longleftrightarrow \lambda_i(A^{\frac{1}{2}}B^{-1}A^{\frac{1}{2}} ) \geq 1 \quad \forall i = 1,...,m \\
+                    & \Longleftrightarrow A^{\frac{1}{2}}B^{-1}A^{\frac{1}{2}} - I \succeq 0 \\
+                    & \Longleftrightarrow A^{-\frac{1}{2}}(I-A^{\frac{1}{2}}B^{-1}A^{\frac{1}{2}})A^{-\frac{1}{2}} \succeq 0 \\
+                    & \Longleftrightarrow B^{-1} - A^{-1} \succeq 0 \\
+                    & \Longleftrightarrow B^{-1} \succeq A^{-1}
+    \end{array}$ \\
+    $^\dagger$: $\lambda_i(A^{-1})=\frac{1}{\lambda_i(A)}$
+    
+    4) \\
+    $\begin{array}{ll}
+        \lambda_i(A)    &=      \lambda_i(A-B+B) \\
+                        &\geq   \lambda_i(B) + \underbrace{\lambda_m(A-B)}_{\geq 0 \text{ \rm since }A-B\succeq 0} \\
+                        &\geq   \lambda_i(B) \quad \forall i=1,...,m
+    \end{array}$
+\end{proof}
+From 4), if $A\succeq B$ $\Longrightarrow$ $Tr(A)\geq Tr(B)$, if additionally $A,B \succeq 0$ $\Longrightarrow$ $det(A) \geq det(B)$, and if $A,B \succ 0$ and $A\succeq B$ then $Tr(B^{-1})\geq Tr(A^{-1})$
+
+\begin{definition} [Schur Complement]
+    Consider a matrix $X\in H^{(m+n)\times (m+n)}$ to be partitioned 
+    \[
+        X = \begin{bmatrix}
+            A & B \\ B^H C
+        \end{bmatrix}
+    \]
+    where $A\in H^{m\times m}$, $B\in \mathbb{C}^{m\times n}$, $C\in H^{n\times n}\succ 0$. The term 
+    \[
+        S\triangleq A - BC^{-1}B^H \in H^{m\times m}
+    \]
+    is called \emph{Schur Complement} of $X$.\\
+\end{definition}
+
+Then $X\succeq (\succ) 0$ $\Longleftrightarrow$ $S\succeq (\succ) 0$
+\begin{proof} \\
+Let $Y=\begin{bmatrix}
+    I_m & 0 \\ -C^{-1}B^H & I_n
+\end{bmatrix} \in \mathbb{C}^{(m+n)\times (m+n)}$. \\
+Then $Y$ is a lower triangular matrix and $det(Y)=1$ $\Longrightarrow$ $Y$ is invertible.\\
+Then
+\[
+    Y^HXY =\begin{bmatrix}
+        A - BC^{-1}B^H & 0 \\ 0 & C
+    \end{bmatrix}
+\]  
+$Y^HXY \succeq (\succ) 0$ $\Longleftrightarrow$ $x\succeq (\succ) 0$ $\Longrightarrow$ $X\succeq(\succ) 0$ $\Longleftrightarrow$ $X\succeq(\succ) 0$
+\end{proof}
+
+\[
+    \begin{array}{ll}
+        det(YX^HY) &= det(X) \\
+        &= det(S)det(C)
+    \end{array}
+\]
+
 \newpage
 \end{multicols}
