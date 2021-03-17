@@ -173,8 +173,30 @@ Then,
     \item the eigenvector associated with $\lambda=1$, denoted $v_1$, can be obtainable by the power method
 \end{enumerate}
 \begin{proof} \\
-    1) $v\in S$ $\Longleftrightarrow$ $1^Tv=0$ \\
-    2) 
+    1) \\
+    $v\in S$ $\Longleftrightarrow$ $1^Tv=0$ \\
+    2) \\
+    $w\triangleq Mv$ \\
+    $\begin{array}{ll}
+        \|w\|_1 &= \|Mv\|_1 \\
+                &= \sum_{i=1}^m |w_i| = \sum_{i=1}^m sign(w_i)\cdot w_i \\
+                &= \sum_{i=1}^m \left[ sign(w_i)\cdot \sum_{j=1}^m M_{ij}v_j \right] \\
+                &= \sum_{j=1}^m \left[ \left( \sum_{j=1}^m sign(w_i)M_{ij} \right) \cdot v_j \right]
+    \end{array}$\\
+    $a_j\triangleq \left( \sum_{j=1}^m sign(w_i)M_{ij} \right)$\\
+    $\begin{array}{ll}
+        |a_j|   &= \left| \sum_{j=1}^m sign(w_i)M_{ij} \right| \\
+                &< \sum_{j=1}^m \left| sign(w_i)M_{ij} \right| \\
+                &= \sum_{j=1}^m M_{ij} = 1
+    \end{array}$\\
+    $c\triangleq \max_{j=1,...,m} |a_j| < 1$\\
+    $\begin{array}{ll}
+        \|Mv\_1| = \|w\|_1  &= \sum_{j=1}^m a_jv_j \\
+                            &\leq \sum_{j=1}^m |a_j||v_j| \\
+                            &\leq c \sum_{j=1}^m |v_j| \\
+                            &= c\cdot \|v\|_1
+    \end{array}$\\
+    $\Longrightarrow$ $\|Mv\|_1 \leq c\|v\|_1 $ $\forall v\in S$
 \end{proof}
 \newpage
 \end{multicols}
