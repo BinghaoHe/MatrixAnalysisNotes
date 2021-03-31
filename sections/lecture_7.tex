@@ -1,6 +1,263 @@
 \section{Lecture 7. Singular Value Decomposition}
 \setcounter{theorem}{0}
 \begin{multicols}{2}
+\subsection{Singular Value Decomposition (SVD)}
+\subsubsection{Theorem of SVD}
+\begin{theorem}
+    Any $A\in \mathbb{C}^{m\times n}$ can be decomposed as
+    \[
+        \underbrace{A}_{\mathbb{R}^{m\times n}} = \underbrace{V}_{\mathbb{R}^{m\times m}} \underbrace{\Sigma}_{\mathbb{R}^{m\times n}} \underbrace{U^H}_{\mathbb{R}^{m\times n}}
+    \]
+    where $V$ and $U$ are unitary, 
+    \[
+        [\Sigma]_{ij} = \left\{
+        \begin{array}{ll}
+            \sigma_i & i=j \\
+            0 & i\neq j
+        \end{array}\right.
+    \]
+    and 
+    \[
+        \sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_p \geq 0\quad , \quad p=\min\{m,n\}
+    \]
+    $V=[v_1,v_2,...,v_m]$: left singular matrix. \\
+    $U=[u_1,u_2,...,u_m]$: left singular matrix. \\
+    $\sigma_i\geq 0$: singular matrix. 
 
+    If $A$ is real-valued, then $V,U$ can be orthogonal real-valued.
+\end{theorem}
+\begin{proof}
+    $r\triangleq rank(A)$\\
+    Consider
+    \[
+        \underbrace{AA^H}_{rank(AA^H)=r, PSD} = V\Lambda V^H = \begin{bmatrix}
+            V_1 & V_2
+        \end{bmatrix}\begin{bmatrix}
+            \tilde{\Lambda} & \\ & 0
+        \end{bmatrix}\begin{bmatrix}
+            V_1^H \\ V_2^H
+        \end{bmatrix}
+    \]
+    where 
+    \begin{itemize}
+        \item [-] $V_1\in\mathbb{C}^{m\times r}$
+        \item [-] $V_2\in\mathbb{C}^{m\times (m-r)}$
+        \item [-] $\tilde{\Lambda} = diag(\lambda_1,...,\lambda_r)\succ 0 \in\mathbb{C}^{r\times r}$
+    \end{itemize}
+    First note that $V_2^HA=0$ as
+    \[
+        V_2^HAA^HV_2 = V_2^H(V_1\tilde{Lambda}V_1^H)V_2 = 0
+    \]
+    Second, define 
+    \[
+        \tilde{\Sigma}=\tilde{\Lambda}^{\frac{1}{2}}=diag(\sqrt{\lambda_1},...,\sqrt{\lambda_r})
+    \]
+    \[
+        U_1 = A^HV_1\tilde{\Sigma}^{-1}
+    \]
+    Then $U_1$ is semi-unitary ($U_1^HU_1=Ir$). \\
+    Since
+    \[
+        U_1^HU_1 = \tilde{\Sigma}^{-1}V_1^H\underbrace{AA^H}_{=V_1\tilde{\Lambda}V_1^H}V_1\tilde{\Sigma}^{-1} = \tilde{\Sigma}^{-1}\tilde{\Lambda}\tilde{\Sigma}^{-1} = I_r
+    \]
+    Then we have $U_2\in\mathbb{C}^{n\times (n-r)}$ and 
+    $
+        U\triangleq \begin{bmatrix}
+            U_1 & U_2
+        \end{bmatrix}\in\mathbb{C}^{n\times n}
+    $ is unitary. \\
+    Consider 
+    \[
+        V^HAU = \begin{bmatrix}
+            V_1^H \\ V_2^H
+        \end{bmatrix} A 
+        \begin{bmatrix}
+            U_1 & U_2
+        \end{bmatrix} = \begin{bmatrix}
+            V_1^HAU_1 & V_1^HAV_2 \\ V_2^HAU_1 & V_2^HAU_2
+        \end{bmatrix}
+    \]
+    Since $V_2^HA = 0$ and $V_2^HAV_1=u_2^H(U_1\tilde{\Sigma})=0$, so
+    \[
+        V^HAU = \begin{bmatrix}
+            V_1^HAU_1 & 0 \\ 0 & 0
+        \end{bmatrix} = \begin{bmatrix}
+            \tilde{\Sigma} & 0 \\ 0 & 0
+        \end{bmatrix}
+    \]
+    Therefore, 
+    \[
+        A = V\Sigma U^H = \begin{bmatrix}
+            V_1 & V_2
+        \end{bmatrix} \begin{bmatrix}
+            \tilde{\Sigma}_{r\times r} & \\ & 0
+        \end{bmatrix}\begin{bmatrix}
+            U_1^H \\ U_1^H
+        \end{bmatrix}
+        = V_1\tilde{\Sigma}U_1^H (\text{\rm thin SVD})
+    \]
+    or
+    \[
+        A = \sum_{i=1}^r \sigma_iv_iu_i^H
+    \]
+\end{proof}
+Mention that
+\begin{itemize}
+    \item [-] $AA^H = V\Sigma^2V^H$, $\lambda_i(AA^H)=\sigma_i^2(A)$
+    \item [-] $A^HA = U\Sigma^2U^H$, $\lambda_i(AA^H)=\sigma_i^2(A)$
+    \item [-] or $\sigma_i(A) = \sqrt{\lambda_i(AA^H)}= \sqrt{\lambda_i(A^HA)}$
+\end{itemize}
+
+\subsubsection{Properties}
+$
+A = V\Sigma U^H = \begin{bmatrix}
+    V_1 & V_2
+\end{bmatrix} \begin{bmatrix}
+    \tilde{\Sigma}_{r\times r} & \\ & 0
+\end{bmatrix}\begin{bmatrix}
+    U_1^H \\ U_1^H
+\end{bmatrix}
+= V_1\tilde{\Sigma}U_1^H
+$\\
+$
+A^H = U_1\tilde{\Sigma}V_1^H
+$
+\begin{itemize}
+    \item [-] $Range(A) = Range(V_1)$
+    \item [-] $Range(A)_{\bot} = Range(V_2)$
+    \item [-] $Range(A^H) = Range(V_1)$
+    \item [-] $Range(A^H)_{\bot} = Null(A) = Range(V_2)$
+\end{itemize}
+
+\subsection{System of Linear Equations}
+\subsubsection{SVD as a solution of a linear system}
+For $y\in\mathbb{R}^{m\times 1}$, $A\in\mathbb{R}^{m\times n}$ and $x \in\mathbb{R}^{n\times 1}$
+\[
+    y=Ax
+\]
+has a solution iff.
+\[
+    y\in Range(A)
+\]
+Let $A$ SVD be $A = V\Sigma U^H$
+\[
+    y=Ax=(V\Sigma U^H)x
+\]
+\[
+    V^Hy=\Sigma U^Hx
+\]
+Define $\tilde{y}=V^Hy$, $\tilde{x}= U^H x$.
+\[
+    \tilde{y} = \Sigma \tilde{x}
+\]
+
+If $A$ is invertible, then $y=Ax \Longrightarrow x=A^{-1}y$. \\
+If $A$ is general, not necessarily be square 
+\[y=Ax \Longrightarrow x=A^{+}y\]
+where 
+\[
+    A^{+} \triangleq U\begin{bmatrix}
+        \tilde{\Sigma}^{-1} & \\ & 0
+    \end{bmatrix} V^H
+\]
+if SVD of $A$ is $A=V\begin{bmatrix}
+    \tilde{\Sigma} & \\ & 0
+\end{bmatrix}U^H$ \\
+\textbf{Case 1:} $rank(A)=n$, $r=n$ (full column rank)
+\[
+    \Sigma = \begin{bmatrix}
+        \tilde{\Sigma} \\ 0
+    \end{bmatrix} \quad ; \quad 
+    \tilde{y}=\Sigma \tilde{x}
+\]
+$\Longrightarrow$
+\[
+    \tilde{y}=\begin{bmatrix}
+        \tilde{y}_1 \\ \tilde{y}_2
+    \end{bmatrix}=\begin{bmatrix}
+        \tilde{\Sigma} \\ 0
+    \end{bmatrix}\tilde{x} = \begin{bmatrix}
+        \tilde{\Sigma}\tilde{x} \\ 0
+    \end{bmatrix}
+\]
+\[
+    \tilde{x} = \tilde{\Sigma}^{-1}\tilde{y}_1 \quad ; \quad \tilde{y}_2 = 0
+\]
+Then
+\[
+    \begin{array}{ll}
+        x &= U\tilde{x} \\
+        &= U\tilde{\Sigma}^{-1}\tilde{y}_1 \\
+        &= U\begin{bmatrix}
+            \tilde{\Sigma}^{-1} & 0
+        \end{bmatrix} \begin{bmatrix}
+            \tilde{y}_1 \\ \tilde{y}_2
+        \end{bmatrix} \\
+        &= U\begin{bmatrix}
+            \tilde{\Sigma}^{-1} & 0
+        \end{bmatrix} V^H y
+    \end{array}
+\]
+Define $A^{+}=U\begin{bmatrix}
+    \tilde{\Sigma}^{-1} & 0
+\end{bmatrix} V^H$ given $A=V\begin{bmatrix}
+    \tilde{\Sigma} & \\ & 0
+\end{bmatrix}U^H$. \\
+Then 
+\[
+    x = A^{+}y
+\]
+
+If $y\in Range(A)$, given $y$ and $rank(A)=n$, $x$ is unique. \\
+In fact, $A^{+}=(A^HA)^{-1}A^H=U\begin{bmatrix}
+    \tilde{\Sigma}^{-1} & 0
+\end{bmatrix} V^H$
+
+\textbf{Case 1:} $rank(A)=m$, $r=m$ (full row rank)
+Then
+\[
+    \Sigma = \begin{bmatrix}
+        \tilde{\Sigma} & 0
+    \end{bmatrix}
+\]
+$\Longrightarrow$
+\[
+    \tilde{y} = \Sigma \tilde{x} = \begin{bmatrix}
+        \tilde{\Sigma} & 0
+    \end{bmatrix}\begin{bmatrix}
+        \tilde{x}_1 \\ \tilde{x}_2
+    \end{bmatrix} = \tilde{\Sigma}\tilde{x}_1
+\]
+\[
+    \tilde{x}_1=\tilde{\Sigma}^{-1}\tilde{y}\quad,\quad \tilde{x}_2\text{ \rm arbitrary}
+\]
+\[
+    x=U\tilde{x}=\begin{bmatrix}
+        U_1 & U_2
+    \end{bmatrix}\begin{bmatrix}
+        \tilde{x}_1 \\ \tilde{x}_2
+    \end{bmatrix} = U_1\tilde{x}_1+U_2\tilde{x}_2 = U_1\tilde{\Sigma}^{-1}\tilde{y} + U_1\tilde{x}_2
+\]
+\[
+    =\begin{bmatrix}
+        U_1 & U_2
+    \end{bmatrix}\begin{bmatrix}
+        \tilde{\Sigma}^{-1} \\ 0
+    \end{bmatrix}V^Hy+U_2\tilde{x}_2
+\]
+$\Longrightarrow$
+\[
+    x=U\begin{bmatrix}
+        \tilde{\Sigma}^{-1} \\ 0
+    \end{bmatrix}V^Hy + U_2\tilde{x}_2
+\]
+$
+    A^{+}\triangleq U\begin{bmatrix}
+        \tilde{\Sigma}^{-1} \\ 0
+    \end{bmatrix}V^H
+$ \\
+$
+    A^{+}y \bot U_2\tilde{x}_2
+$
 \newpage
 \end{multicols}
